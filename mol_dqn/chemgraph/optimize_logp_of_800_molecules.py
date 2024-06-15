@@ -27,7 +27,6 @@ from __future__ import print_function
 import functools
 import json
 import os
-import random
 
 from absl import app
 from absl import flags
@@ -41,6 +40,7 @@ from mol_dqn.chemgraph.dqn import molecules as molecules_mdp
 from mol_dqn.chemgraph.dqn import run_dqn
 from mol_dqn.chemgraph.dqn.py import molecules
 from mol_dqn.chemgraph.dqn.tensorflow_core import core
+import secrets
 
 
 flags.DEFINE_float(
@@ -80,7 +80,7 @@ class LogPRewardWithSimilarityConstraintMolecule(molecules_mdp.Molecule):
     Each time the environment is initialized, we uniformly choose
     a molecule from all molecules as target.
     """
-    self._state = random.choice(self._all_molecules)
+    self._state = secrets.choice(self._all_molecules)
     self._target_mol_fingerprint = self.get_fingerprint(
         Chem.MolFromSmiles(self._state))
     if self.record_path:

@@ -63,7 +63,6 @@ modularity: an algorithm optimizing modularity
 from __future__ import print_function
 
 import os.path
-import random
 
 from . import persona
 from absl import app
@@ -73,6 +72,7 @@ import networkx as nx
 import numpy
 from six.moves import xrange
 from .third_party import persona2vec
+import secrets
 
 flags.DEFINE_string('output_persona_embedding', None, 'model.')
 
@@ -166,13 +166,13 @@ def Splitter(graph,
       GenerateRandomWalks(
           persona_graph, walks_per_node=num_walks_node,
           walk_length=walk_length))
-  random.shuffle(sentences_persona)
+  secrets.SystemRandom().shuffle(sentences_persona)
 
   print('Generating regular random walks...')
   sentences_regular = list(
       GenerateRandomWalks(
           graph, walks_per_node=num_walks_node, walk_length=walk_length))
-  random.shuffle(sentences_regular)
+  secrets.SystemRandom().shuffle(sentences_regular)
 
   # initial embedding for prior
   regular_model = RunDeepWalk(

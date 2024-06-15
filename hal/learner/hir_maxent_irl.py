@@ -19,8 +19,6 @@
 # pylint: disable=g-explicit-length-test
 from __future__ import absolute_import
 from __future__ import division
-
-import random
 import time
 
 import numpy as np
@@ -30,6 +28,7 @@ from hal.learner.hir import HIR
 from hal.learner.language_utils import instruction_type
 from hal.learner.language_utils import pad_to_max_length
 from hal.learner.language_utils import paraphrase_sentence
+import secrets
 
 
 class MaxentIrlHIR(HIR):
@@ -79,7 +78,7 @@ class MaxentIrlHIR(HIR):
     for _ in range(self.cfg.num_episode):
       curr_step = agent.increase_global_step()
 
-      sample_new_scene = random.uniform(0, 1) < self.cfg.sample_new_scene_prob
+      sample_new_scene = secrets.SystemRandom().uniform(0, 1) < self.cfg.sample_new_scene_prob
       s = self.reset(env, agent, sample_new_scene)
       episode_experience = []
       episode_reward = 0
@@ -240,7 +239,7 @@ class MaxentIrlHIR(HIR):
     if not ag:
       return
     for _ in range(min(self.cfg.k_immediate, len(ag) + 1)):
-      ag_text_single = random.choice(ag)
+      ag_text_single = secrets.choice(ag)
       g_type = instruction_type(ag_text_single)
       if self.cfg.paraphrase and g_type != 'unary':
         ag_text_single = paraphrase_sentence(

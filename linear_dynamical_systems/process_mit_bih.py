@@ -19,13 +19,11 @@ from __future__ import absolute_import
 from __future__ import division
 
 from __future__ import print_function
-
-
-import random
 from absl import app
 from absl import flags
 import numpy as np
 import wfdb
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -68,12 +66,12 @@ def main(argv):
 
   all_rhythms = sorted(rhythms.keys())
   print(all_rhythms)
-  random.seed(1984)
+  secrets.SystemRandom().seed(1984)
   with file(FLAGS.outfile + 'all.csv', 'w') as f_all:
     for label in all_rhythms:
       records = rhythms[label]
       idxs = range(len(records)/2)
-      random.shuffle(idxs)
+      secrets.SystemRandom().shuffle(idxs)
       outfile = FLAGS.outfile + label + '.csv'
       with file(outfile, 'w') as f:
         for i in idxs:

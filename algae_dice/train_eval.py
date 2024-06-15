@@ -22,7 +22,6 @@ from __future__ import print_function
 import collections
 import json
 import os
-import random
 import time
 from absl import app
 from absl import flags
@@ -35,6 +34,7 @@ from tf_agents.specs import tensor_spec
 from tqdm import tqdm
 from algae_dice import algae
 from algae_dice import wrappers
+import secrets
 
 gfile = tf.io.gfile
 
@@ -100,7 +100,7 @@ def main(_):
   tf.enable_v2_behavior()
   tf.random.set_seed(FLAGS.seed)
   np.random.seed(FLAGS.seed)
-  random.seed(FLAGS.seed)
+  secrets.SystemRandom().seed(FLAGS.seed)
 
   base_env = suite_mujoco.load(FLAGS.env_name)
   if hasattr(base_env, 'max_episode_steps'):

@@ -23,10 +23,10 @@ from __future__ import print_function
 import abc
 import collections
 import heapq
-import random
 import numpy as np
 import six
 import tensorflow.compat.v1 as tf
+import secrets
 
 Sample = collections.namedtuple('Sample', 'traj prob')
 Traj = collections.namedtuple('Traj', 'env_name features actions rewards')
@@ -241,7 +241,7 @@ class SampleGenerator(object):
       agent = None
     while True:
       # Randomly shuffle the env_names
-      random.shuffle(all_env_names)
+      secrets.SystemRandom().shuffle(all_env_names)
       for env_names in chunker(all_env_names, batch_size):
         if drop_last and (len(env_names) < batch_size):
           continue

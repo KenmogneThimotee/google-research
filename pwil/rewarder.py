@@ -16,12 +16,12 @@
 """Rewarder class implementation."""
 
 import copy
-import random
 
 import dm_env
 import numpy as np
 import ot
 from sklearn import preprocessing
+import secrets
 
 
 class PWILRewarder(object):
@@ -83,10 +83,10 @@ class PWILRewarder(object):
       filtered_demonstrations: list of filtered expert demonstrations
     """
     filtered_demonstrations = []
-    random.shuffle(demonstrations)
+    secrets.SystemRandom().shuffle(demonstrations)
     for episode in demonstrations[:self.num_demonstrations]:
       # Random episode start.
-      random_offset = random.randint(0, self.subsampling-1)
+      random_offset = secrets.SystemRandom().randint(0, self.subsampling-1)
       # Subsampling.
       subsampled_episode = episode[random_offset::self.subsampling]
       # Specify step types of demonstrations.

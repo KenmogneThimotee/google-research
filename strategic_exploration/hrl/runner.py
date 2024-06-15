@@ -15,7 +15,6 @@
 
 import copy
 import logging
-import random
 from collections import defaultdict
 from strategic_exploration.hrl import abstract_state as AS
 from strategic_exploration.hrl.action import EndEpisode, Teleport, DefaultAction
@@ -23,6 +22,7 @@ from strategic_exploration.hrl.explorer import Explorer
 from strategic_exploration.hrl.graph_update import Visit, Traverse
 from strategic_exploration.hrl.justification import Justification
 from strategic_exploration.hrl.rl import Experience
+import secrets
 
 
 class EpisodeRunner(object):
@@ -115,7 +115,7 @@ class EpisodeRunner(object):
         action, s = self._explorer.act(state)
         return action, Justification([], self._graph, s)
       elif test:  # No resetting on test episodes!
-        action = DefaultAction(random.randint(0, self._num_actions - 1))
+        action = DefaultAction(secrets.SystemRandom().randint(0, self._num_actions - 1))
         justification = Justification([], self._graph, "test random")
         return action, justification
       else:

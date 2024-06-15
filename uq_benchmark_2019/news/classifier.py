@@ -22,7 +22,6 @@ import collections
 import json
 import os
 import pickle
-import random
 import sys
 from absl import flags
 from absl import logging
@@ -36,6 +35,7 @@ from tensorflow.compat.v1.keras import optimizers
 from tensorflow.compat.v1.keras import regularizers
 import tensorflow_probability as tfp
 from tensorflow_probability import layers as tfpl
+import secrets
 
 # parameters
 FLAGS = flags.FLAGS
@@ -220,7 +220,7 @@ def rnn_model(params, training_dr_lstm=True, training_dr_ll=True):
 
 def main(_):
 
-  random.seed(FLAGS.random_seed)
+  secrets.SystemRandom().seed(FLAGS.random_seed)
 
   params = {
       'num_epochs': FLAGS.num_epochs,

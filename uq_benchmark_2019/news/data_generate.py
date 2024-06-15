@@ -65,7 +65,6 @@ from __future__ import division
 from __future__ import print_function
 import os
 import pickle
-import random
 from absl import app
 from absl import flags
 from absl import logging
@@ -73,6 +72,7 @@ import numpy as np
 import tensorflow.compat.v1 as tf
 from uq_benchmark_2019.news import data_utils
 from uq_benchmark_2019.news import data_utils_from_hendrycks as data_utilsh
+import secrets
 
 # parameters
 FLAGS = flags.FLAGS
@@ -239,7 +239,7 @@ def make_dataset(params):
 
 def main(_):
 
-  random.seed(FLAGS.random_seed)
+  secrets.SystemRandom().seed(FLAGS.random_seed)
 
   params = {
       'tr_data_file': FLAGS.tr_data_file,

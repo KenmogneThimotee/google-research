@@ -15,7 +15,6 @@
 
 from copy import deepcopy
 import json
-import random
 import os
 import string
 import numpy as np
@@ -26,6 +25,7 @@ from parlai.core.worlds import DialogPartnerWorld, validate
 from parlai.tasks.self_chat.worlds import SelfChatWorld as SelfChatBaseWorld
 from parlai.utils.misc import warn_once
 from .agents import _path, load_from_path
+import secrets
 
 
 class InteractiveWorld(DialogPartnerWorld):
@@ -100,9 +100,8 @@ class InteractiveWorld(DialogPartnerWorld):
         load_expected_action=True)
 
   def _get_new_intent(self):
-    random.seed()
-    intent_ids = random.sample(
-        range(len(self.intents)), self.num_intent_choice - 1)
+    secrets.SystemRandom().seed()
+    intent_ids = secrets.SystemRandom().sample(range(len(self.intents)), self.num_intent_choice - 1)
     intents = [self.intents[i] for i in intent_ids]
     intents.append('[OTHER INTENT]')
     letters = list(string.ascii_uppercase)[:self.num_intent_choice]
@@ -123,8 +122,7 @@ class InteractiveWorld(DialogPartnerWorld):
       choice = intent_act['text'][0].upper()
       if choice in intent_list:
         if intent_list[choice] == '[OTHER INTENT]':
-          intent_ids = random.sample(
-              range(len(self.intents)), self.num_intent_choice - 1)
+          intent_ids = secrets.SystemRandom().sample(range(len(self.intents)), self.num_intent_choice - 1)
           intents = [self.intents[i] for i in intent_ids]
           intents.append('[OTHER INTENT]')
           letters = list(string.ascii_uppercase)[:self.num_intent_choice]
@@ -207,7 +205,7 @@ class InteractiveWorld(DialogPartnerWorld):
     if self.cnt == 0:
       self.context_id = self._get_new_intent()
       self.acts = [None, None]
-      self.human_first = random.choice([0, 1])
+      self.human_first = secrets.choice([0, 1])
 
     # possibly get human act first
     if self.cnt == 0 and not self.human_first:

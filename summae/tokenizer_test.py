@@ -21,11 +21,11 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-import random
 import six
 from six.moves import range  # pylint: disable=redefined-builtin
 import tensorflow.compat.v1 as tf
 from summae import tokenizer
+import secrets
 
 FLAGS = tf.flags.FLAGS
 
@@ -54,7 +54,7 @@ class TokenizerTest(tf.test.TestCase):
 
   def test_invertibility_on_random_strings(self):
     for _ in range(1000):
-      s = u"".join(six.unichr(random.randint(0, 65535)) for _ in range(10))
+      s = u"".join(six.unichr(secrets.SystemRandom().randint(0, 65535)) for _ in range(10))
       self.assertEqual(s, tokenizer.decode(tokenizer.encode(s)))
 
 

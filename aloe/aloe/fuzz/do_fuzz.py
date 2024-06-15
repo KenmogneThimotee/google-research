@@ -17,7 +17,6 @@
 import numpy as np
 import os
 import sys
-import random
 import torch
 import torch.nn as nn
 from torch.nn.parameter import Parameter
@@ -31,6 +30,7 @@ from aloe.fuzz.main_varlen import get_score_func, get_editor
 from aloe.fuzz.utils import HexStreamDataset, to_hex
 from tqdm import tqdm
 import binascii
+import secrets
 
 
 def rand_modify(init_samples):
@@ -68,7 +68,7 @@ def rand_modify(init_samples):
 
 if __name__ == '__main__':
     np.random.seed(cmd_args.seed)
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     torch.manual_seed(cmd_args.seed)
     set_device(cmd_args.gpu)
     torch.set_grad_enabled(False)

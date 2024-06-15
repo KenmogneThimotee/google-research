@@ -18,7 +18,6 @@ import numpy as np
 import os
 import pickle as cp
 import sys
-import random
 import torch
 import torch.nn as nn
 from torch.nn.parameter import Parameter
@@ -33,6 +32,7 @@ from aloe.rfill.utils.rfill_parser import RFillNode, evaluate_prog
 from aloe.rfill.editor import RfillSampler, shortest_rand_edit, perform_edit
 from tqdm import tqdm
 from aloe.rfill.main_supervised import test_topk, test_passed
+import secrets
 
 
 def check_prog(pred_prog, gt_prog, list_inputs, list_outputs):
@@ -127,7 +127,7 @@ def get_step_probs(sampler, list_inputs, list_outputs, io_embed, init_progs, tar
 
 if __name__ == '__main__':
     np.random.seed(cmd_args.seed)
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     torch.manual_seed(cmd_args.seed)
     set_device(cmd_args.gpu)
 

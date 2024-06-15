@@ -23,7 +23,6 @@ import sys
 import pickle as cp
 import networkx as nx
 import numpy as np
-import random
 from tqdm import tqdm
 import torch
 import torch.optim as optim
@@ -32,6 +31,7 @@ from bigg.common.configs import cmd_args, set_device
 from bigg.model.tree_model import RecurTreeGen
 from bigg.model.tree_clib.tree_lib import setup_treelib, TreeLib
 from bigg.experiments.train_utils import sqrtn_forward_backward, get_node_dist
+import secrets
 
 
 def load_graphs(graph_pkl):
@@ -49,7 +49,7 @@ def load_graphs(graph_pkl):
 
 
 if __name__ == '__main__':
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     torch.manual_seed(cmd_args.seed)
     np.random.seed(cmd_args.seed)
     set_device(cmd_args.gpu)
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
         optimizer.zero_grad()
         for idx in pbar:
-            random.shuffle(indices)
+            secrets.SystemRandom().shuffle(indices)
             batch_indices = indices[:cmd_args.batch_size]
 
             num_nodes = sum([len(train_graphs[i]) for i in batch_indices])

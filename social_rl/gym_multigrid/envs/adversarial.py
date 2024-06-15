@@ -25,7 +25,6 @@ Has additional functions, step_adversary, and reset_agent. How to use:
 4. If required, call reset_agent() to reset the environment the way the
    adversary designed it. A new agent can now play it using the step() function.
 """
-import random
 
 import gym
 import gym_minigrid.minigrid as minigrid
@@ -35,6 +34,7 @@ import numpy as np
 
 from social_rl.gym_multigrid import multigrid
 from social_rl.gym_multigrid import register
+import secrets
 
 
 class AdversarialEnv(multigrid.MultiGridEnv):
@@ -276,7 +276,7 @@ class AdversarialEnv(multigrid.MultiGridEnv):
     # Place goal
     if should_choose_goal:
       # If there is goal noise, sometimes randomly place the goal
-      if random.random() < self.goal_noise:
+      if secrets.SystemRandom().random() < self.goal_noise:
         self.goal_pos = self.place_obj(minigrid.Goal(), max_tries=100)
       else:
         self.remove_wall(x, y)  # Remove any walls that might be in this loc

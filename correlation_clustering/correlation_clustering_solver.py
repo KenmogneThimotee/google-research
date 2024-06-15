@@ -17,8 +17,8 @@
 """
 
 import collections
-import random
 from .utils import CorrelationClusteringError
+import secrets
 
 
 def PivotAlgorithm(graph):
@@ -32,7 +32,7 @@ def PivotAlgorithm(graph):
   """
   # This is to ensure consistency of random runs with same seed.
   nodes = sorted(list(graph.nodes()))
-  random.shuffle(nodes)
+  secrets.SystemRandom().shuffle(nodes)
   clusters = []
   clustered = set()
 
@@ -107,7 +107,7 @@ class LocalSearchCorrelationClustering(object):
   def DoOnePassMoves(self):
     """Completes one pass over the graph."""
     nodes = sorted(list(self.graph.nodes()))
-    random.shuffle(nodes)
+    secrets.SystemRandom().shuffle(nodes)
     for node in nodes:
       positive_to_clusters = collections.defaultdict(int)
       best_cluster = None

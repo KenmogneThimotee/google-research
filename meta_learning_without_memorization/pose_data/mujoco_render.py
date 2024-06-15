@@ -29,13 +29,14 @@ import contextlib
 import logging
 import os
 import pickle
-import random
 import tempfile
 
 from absl import app
 from absl import flags
 import gym
 import matplotlib
+import secrets
+
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # pylint: disable=g-import-not-at-top
 import numpy as np
@@ -223,18 +224,18 @@ def pusher(obj_scale=None,
   #         #obj_scale = random.uniform(0.5, 1.0)
   #         obj_scale = 4.0
   if obj_mass is None:
-    obj_mass = random.uniform(0.2, 2.0)
+    obj_mass = secrets.SystemRandom().uniform(0.2, 2.0)
   if obj_damping is None:
-    obj_damping = random.uniform(0.2, 5.0)
+    obj_damping = secrets.SystemRandom().uniform(0.2, 5.0)
   obj_damping = str(obj_damping)
 
   if distractor_mesh_file:
     if distr_scale is None:
-      distr_scale = random.uniform(0.5, 1.0)
+      distr_scale = secrets.SystemRandom().uniform(0.5, 1.0)
     if distr_mass is None:
-      distr_mass = random.uniform(0.2, 2.0)
+      distr_mass = secrets.SystemRandom().uniform(0.2, 2.0)
     if distr_damping is None:
-      distr_damping = random.uniform(0.2, 5.0)
+      distr_damping = secrets.SystemRandom().uniform(0.2, 5.0)
     distr_damping = str(distr_damping)
 
   mjcmodel = MJCModel("arm3d")
@@ -470,7 +471,7 @@ def render_images(stl_file, dest_dir):
     # random.seed(i**2)
     x_pos = 0.5  # random.uniform(0,1)
     y_pos = 0  # random.uniform(-1,1)
-    angle_pos = random.uniform(0, 2 * np.pi)
+    angle_pos = secrets.SystemRandom().uniform(0, 2 * np.pi)
     model = pusher(
         mesh_file=stl_file,
         mesh_file_path=stl_file,

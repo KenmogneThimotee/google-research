@@ -15,7 +15,6 @@
 
 import logging
 import numpy as np
-import random
 import torch.nn as nn
 import torch.nn.functional as F
 import torch
@@ -27,6 +26,7 @@ from strategic_exploration.hrl.policy import Policy
 from strategic_exploration.hrl.schedule import LinearSchedule
 from strategic_exploration.hrl.utils import mean_with_default
 from strategic_exploration.hrl.worker import Goal
+import secrets
 
 
 class DQNPolicy(Policy):
@@ -358,8 +358,8 @@ def epsilon_greedy(q_values, epsilon):
   max_indices = max_indices.cpu().data.numpy()
   actions = []
   for i in range(batch_size):
-    if random.random() > epsilon:
+    if secrets.SystemRandom().random() > epsilon:
       actions.append(max_indices[i])
     else:
-      actions.append(random.randint(0, num_actions - 1))
+      actions.append(secrets.SystemRandom().randint(0, num_actions - 1))
   return actions

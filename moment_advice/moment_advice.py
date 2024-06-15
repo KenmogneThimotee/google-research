@@ -48,12 +48,12 @@ from builtins import range
 import hashlib
 import math
 import time
-import random
 import numpy as np
 import sys
 
 from absl import app
 from absl import flags
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -70,7 +70,7 @@ flags.DEFINE_enum("dataset_type", "graph",
                   "Type of dataset")
 
 # Draws different default randomness for the hash function each run.
-SEED = str(random.randint(1, 2**64 + 1)) + str(random.randint(1, 2**64 + 1))
+SEED = str(secrets.SystemRandom().randint(1, 2**64 + 1)) + str(secrets.SystemRandom().randint(1, 2**64 + 1))
 
 
 def hash_exp(key, seed=SEED):
@@ -614,7 +614,7 @@ def basic_experiments(k, p, num_iter, transforms, train_path, test_path):
   print("Estimating using noisy advice:")
   est_with_advice = []
   for i in range(num_iter):
-    seed = str(random.randint(1, 2**64 + 1)) + str(random.randint(1, 2**64 + 1))
+    seed = str(secrets.SystemRandom().randint(1, 2**64 + 1)) + str(secrets.SystemRandom().randint(1, 2**64 + 1))
     this_hash_exp = lambda x: hash_exp(x, seed)
     est_with_advice.append(
         estimate_using_advice(test_data, transforms, k, p, this_hash_exp,
@@ -625,7 +625,7 @@ def basic_experiments(k, p, num_iter, transforms, train_path, test_path):
   print("Estimating using perfect advice:")
   est_perfect_advice = []
   for i in range(num_iter):
-    seed = str(random.randint(1, 2**64 + 1)) + str(random.randint(1, 2**64 + 1))
+    seed = str(secrets.SystemRandom().randint(1, 2**64 + 1)) + str(secrets.SystemRandom().randint(1, 2**64 + 1))
     this_hash_exp = lambda x: hash_exp(x, seed)
     est_perfect_advice.append(
         estimate_using_advice(test_data, transforms, k, p, this_hash_exp,
