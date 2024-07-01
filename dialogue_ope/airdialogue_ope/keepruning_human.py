@@ -16,6 +16,7 @@
 import os, sys
 import subprocess
 import flashtool
+from security import safe_command
 
 
 def replace(script, key, value):
@@ -36,7 +37,7 @@ def run_new_script(basescript, replace_dict):
     _script = replace(basescript, "PROJECT_ROOT", os.path.abspath("."))
     for k, v in replace_dict.items():
       _script = replace(_script, k, v)
-    subprocess.run(_script, shell=True, cwd=os.path.abspath("."))
+    safe_command.run(subprocess.run, _script, shell=True, cwd=os.path.abspath("."))
   except:
     print("==================FAILED==================")
     print(replace_dict)
