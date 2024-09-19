@@ -22,13 +22,14 @@ from __future__ import print_function
 
 # pylint: disable=g-import-not-at-top,g-bad-import-order
 import platform
+import secrets
+
 if int(platform.python_version_tuple()[0]) < 3:
   import cPickle as pickle
 else:
   import _pickle as pickle
 
 import os
-import random
 import zlib
 from absl import app
 from absl import flags
@@ -82,7 +83,7 @@ def main(_):
 
   tf.set_random_seed(FLAGS.seed)
   np.random.seed(FLAGS.seed)
-  random.seed(FLAGS.seed)
+  secrets.SystemRandom().seed(FLAGS.seed)
 
   env = gym.make(FLAGS.env)
   env.seed(FLAGS.seed)
@@ -145,7 +146,7 @@ def main(_):
     env.unwrapped.np_random.set_state(
         pickle.loads(gym_random_state_var.numpy()))
     np.random.set_state(pickle.loads(np_random_state_var.numpy()))
-    random.setstate(pickle.loads(py_random_state_var.numpy()))
+    secrets.SystemRandom().setstate(pickle.loads(py_random_state_var.numpy()))
 
   with summary_writer.as_default():
     while total_numsteps < FLAGS.training_steps:
@@ -178,7 +179,7 @@ def main(_):
           gym_random_state_var.assign(
               pickle.dumps(env.unwrapped.np_random.get_state()))
           np_random_state_var.assign(pickle.dumps(np.random.get_state()))
-          py_random_state_var.assign(pickle.dumps(random.getstate()))
+          py_random_state_var.assign(pickle.dumps(secrets.SystemRandom().getstate()))
 
           saver.save(
               os.path.join(FLAGS.save_dir, 'checkpoint'),

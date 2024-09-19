@@ -23,7 +23,6 @@ from __future__ import print_function
 
 import glob
 import os
-import random
 import time
 
 from absl import logging
@@ -36,6 +35,7 @@ from six.moves import range
 
 import pybullet
 from dql_grasping import kuka
+import secrets
 
 INTERNAL_BULLET_ROOT = None
 if INTERNAL_BULLET_ROOT is None:
@@ -207,9 +207,9 @@ class KukaGraspingProceduralEnv(gym.Env):
         clientId=self.cid)
     self._block_uids = []
     for urdf_name in self._urdf_list:
-      xpos = 0.4 + self._block_random * random.random()
-      ypos = self._block_random * (random.random() - .5)
-      angle = np.pi / 2 + self._block_random * np.pi * random.random()
+      xpos = 0.4 + self._block_random * secrets.SystemRandom().random()
+      ypos = self._block_random * (secrets.SystemRandom().random() - .5)
+      angle = np.pi / 2 + self._block_random * np.pi * secrets.SystemRandom().random()
       ori = pybullet.getQuaternionFromEuler([0, 0, angle])
       uid = pybullet.loadURDF(
           urdf_name, [xpos, ypos, .15], [ori[0], ori[1], ori[2], ori[3]],
@@ -241,10 +241,10 @@ class KukaGraspingProceduralEnv(gym.Env):
     self._env_step = 0
 
     for i in range(len(self._urdf_list)):
-      xpos = 0.4 + self._block_random * random.random()
-      ypos = self._block_random * (random.random() - .5)
+      xpos = 0.4 + self._block_random * secrets.SystemRandom().random()
+      ypos = self._block_random * (secrets.SystemRandom().random() - .5)
       # random angle
-      angle = np.pi / 2 + self._block_random * np.pi * random.random()
+      angle = np.pi / 2 + self._block_random * np.pi * secrets.SystemRandom().random()
       ori = pybullet.getQuaternionFromEuler([0, 0, angle])
       pybullet.resetBasePositionAndOrientation(
           self._block_uids[i], [xpos, ypos, .15],

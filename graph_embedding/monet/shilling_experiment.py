@@ -23,7 +23,6 @@ import collections
 import copy
 import json
 import os
-import random
 import time
 from call_glove import GloVe
 from gensim.models import Word2Vec
@@ -34,6 +33,7 @@ from scipy.stats import pearsonr
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import scale
 import tensorflow.compat.v1 as tf
+import secrets
 
 # User-defined hyperparameters for the experiment.
 DATA_FILE = 'movielens/ml-100k/u.data'
@@ -176,7 +176,7 @@ def generate_random_walks(graph,
                           walks_per_node,
                           walk_length,
                           random_seed=12345):
-  random.seed(random_seed)
+  secrets.SystemRandom().seed(random_seed)
   for node in sorted(graph):
     for _ in range(walks_per_node):
       walk = [node]
@@ -229,8 +229,8 @@ def RunDeepWalk(graph,
           random_seed=random_seed))
   if remove_users:
     sentences = remove_users_from_walks(sentences)
-  random.seed(random_seed)
-  random.shuffle(sentences)
+  secrets.SystemRandom().seed(random_seed)
+  secrets.SystemRandom().shuffle(sentences)
   model = None
   model = Word2Vec(
       sentences=sentences,
@@ -298,7 +298,7 @@ def top_k_add(graph,
   # add ratings for attackers
   for a in attackers:
     for t in target_items:
-      if random.uniform(0, 1.) < target_probability:
+      if secrets.SystemRandom().uniform(0, 1.) < target_probability:
         if attack_weight is None:
           graph[a][t] = attack_table[t]
         else:
@@ -451,7 +451,7 @@ def monet_item_embed(user_item_graph,
             walks_per_node=num_walks_node,
             walk_length=walk_length))
     walks = remove_users_from_walks(walks)
-    random.shuffle(walks)
+    secrets.SystemRandom().shuffle(walks)
     # counter = collections.Counter([w for walk in walks for w in walk])
     flat_walks = []
     for walk in walks:

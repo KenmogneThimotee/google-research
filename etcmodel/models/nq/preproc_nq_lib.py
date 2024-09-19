@@ -18,13 +18,13 @@ r"""A program to convert NQ data to TF examples for XLNet style processing."""
 import collections
 import json
 import math
-import random
 
 import apache_beam as beam
 import numpy as np
 import tensorflow.compat.v1 as tf
 
 from etcmodel.models import tokenization
+import secrets
 
 
 class NQPreprocessor(object):
@@ -494,7 +494,7 @@ class NQPreprocessor(object):
           # we only want to downsample the training set:
           rate = 1.0
         # Downsample null instances if rate < 1.0.
-        if random.random() < rate:
+        if secrets.SystemRandom().random() < rate:
           yield tf.train.Example(features=tf.train.Features(feature=y))
       else:
         # Always output non-null instances.

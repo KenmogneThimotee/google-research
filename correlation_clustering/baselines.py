@@ -15,8 +15,8 @@
 
 """Implementations of fair and standard correlation clustering baselines."""
 import collections
-import random
 import networkx as nx
+import secrets
 
 
 def BaselineAllTogether(graph):
@@ -51,7 +51,7 @@ def BaselineRandomFairEqual(graph):
   nodes_by_color = [nodes for nodes in color_nodes.values()]
   nodes_per_color = len(nodes_by_color[0])
   for l in nodes_by_color:
-    random.shuffle(l)
+    secrets.SystemRandom().shuffle(l)
 
   clusters = []
   for _ in range(nodes_per_color):
@@ -81,6 +81,6 @@ def BaselineRandomFairOneHalf(graph):
   for i in range(graph.number_of_nodes()):
     for j in range(i + 1, graph.number_of_nodes()):
       if graph.nodes[i]['color'] != graph.nodes[j]['color']:
-        matching_graph.add_edge(i, j, weight=random.random())
+        matching_graph.add_edge(i, j, weight=secrets.SystemRandom().random())
   matching = nx.max_weight_matching(matching_graph, maxcardinality=True)
   return [list(m) for m in matching]

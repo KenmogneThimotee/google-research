@@ -22,7 +22,6 @@ import collections
 import json
 import math
 import os
-import random
 
 import numpy as np
 import tensorflow.compat.v1 as tf
@@ -31,6 +30,7 @@ import tensorflow_hub as hub
 from mobilebert import modeling
 from mobilebert import optimization
 from mobilebert import tokenization
+import secrets
 
 flags = tf.flags
 
@@ -1336,7 +1336,7 @@ def main(_):
     num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
     # Pre-shuffle the input to avoid having to make a very large shuffle
     # buffer in in the `input_fn`.
-    rng = random.Random(12345)
+    rng = secrets.SystemRandom().Random(12345)
     rng.shuffle(train_examples)
 
   if FLAGS.export_dir is not None:

@@ -22,13 +22,14 @@ from __future__ import print_function
 
 # pylint: disable=g-import-not-at-top,g-bad-import-order
 import platform
+import secrets
+
 if int(platform.python_version_tuple()[0]) < 3:
   import cPickle as pickle
 else:
   import _pickle as pickle
 
 import os
-import random
 from absl import app
 from absl import flags
 from absl import logging
@@ -75,7 +76,7 @@ def main(_):
 
   tf.set_random_seed(FLAGS.seed)
   np.random.seed(FLAGS.seed)
-  random.seed(FLAGS.seed)
+  secrets.SystemRandom().seed(FLAGS.seed)
 
   env = gym.make(FLAGS.env)
   env.seed(FLAGS.seed)

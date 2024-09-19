@@ -14,17 +14,16 @@
 # limitations under the License.
 
 """Util functions used for testing."""
-
-import random
 import numpy as np
 from kws_streaming.layers import data_frame
 from kws_streaming.layers import modes
 from kws_streaming.layers.compat import tf
 from kws_streaming.models import model_flags
+import secrets
 
 
 def set_seed(seed):
-  random.seed(seed)
+  secrets.SystemRandom().seed(seed)
   np.random.seed(seed)
   tf.random.set_seed(seed)
 

@@ -19,10 +19,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import collections
-import random
 import numpy as np
 from sklearn import metrics
 from sklearn.neighbors import NearestNeighbors
+import secrets
 
 
 def get_choices(arr, num_choices, valid_range, not_arr=None, replace=False):
@@ -64,9 +64,9 @@ def get_choices(arr, num_choices, valid_range, not_arr=None, replace=False):
   not_arr_set = set(not_arr)
 
   def get_choice():
-    arr_idx = random.randint(arr0, n_arr - 1)
+    arr_idx = secrets.SystemRandom().randint(arr0, n_arr - 1)
     while get_arr(arr_idx) in not_arr_set:
-      arr_idx = random.randint(arr0, n_arr - 1)
+      arr_idx = secrets.SystemRandom().randint(arr0, n_arr - 1)
     return arr_idx
 
   if isinstance(not_arr, int):
@@ -112,7 +112,7 @@ def create_pairs_from_labeled_data(x, digit_indices, use_classes=None):
     for i in range(n):
       z1, z2 = digit_indices[d][i], digit_indices[d][i + 1]
       pairs += [[x[z1], x[z2]]]
-      inc = random.randrange(1, n_clusters)
+      inc = secrets.SystemRandom().randrange(1, n_clusters)
       dn = (d + inc) % n_clusters
       z1, z2 = digit_indices[d][i], digit_indices[dn][i]
       pairs += [[x[z1], x[z2]]]

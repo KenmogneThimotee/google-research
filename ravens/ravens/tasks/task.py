@@ -18,7 +18,6 @@
 
 import collections
 import os
-import random
 import string
 
 import cv2
@@ -28,6 +27,7 @@ from ravens import cameras
 from ravens import primitives
 from ravens import utils
 from ravens.grippers import Suction
+import secrets
 
 
 class Task():
@@ -320,7 +320,7 @@ class Task():
       for i in range(len(replace[field])):
         fdata = fdata.replace(f'{field}{i}', str(replace[field][i]))
     alphabet = string.ascii_lowercase + string.digits
-    rname = ''.join(random.choices(alphabet, k=16))
+    rname = ''.join(secrets.SystemRandom().choices(alphabet, k=16))
     fname = f'{template}.{rname}'
     with open(fname, 'w') as file:
       file.write(fdata)

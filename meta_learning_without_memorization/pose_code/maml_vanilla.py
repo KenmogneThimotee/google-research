@@ -21,13 +21,13 @@ from __future__ import print_function
 import functools
 import os
 import pickle
-import random
 import time
 from absl import app
 from absl import flags
 import numpy as np
 import tensorflow.compat.v1 as tf
 from meta_learning_without_memorization.pose_code.maml_vanilla_2 import MAML
+import secrets
 
 
 FLAGS = flags.FLAGS
@@ -168,7 +168,7 @@ def train(model, sess, checkpoint_dir, _):
 def test(model, sess, _):
   """Test model."""
   np.random.seed(1)
-  random.seed(1)
+  secrets.SystemRandom().seed(1)
   NUM_TEST_POINTS = 600  # pylint: disable=invalid-name
   metaval_accuracies = []
 

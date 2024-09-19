@@ -16,8 +16,6 @@
 # Lint as: python3
 """Curvature estimates of interaction graphs functions."""
 
-import random
-
 from absl import app
 from absl import flags
 import networkx as nx
@@ -27,6 +25,7 @@ from scipy.sparse import csr_matrix
 from tqdm import tqdm
 
 from hyperbolic.datasets.datasets import DatasetClass
+import secrets
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string(
@@ -108,7 +107,7 @@ def xi_stats(graph, n_iter=20):
   nodes_list = list(graph.nodes())
   for _ in tqdm(range(n_iter), ascii=True, desc='Sample triangles'):
     # sample a triangle
-    a, b, c = random.sample(nodes_list, 3)
+    a, b, c = secrets.SystemRandom().sample(nodes_list, 3)
     # find the middle node m between node b and c
     d_b_c, path_b_c = nx.single_source_dijkstra(graph, b, c)
     if len(path_b_c) <= 2:

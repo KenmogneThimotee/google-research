@@ -21,11 +21,11 @@ from __future__ import print_function
 
 import os
 import pickle
-import random
 from absl import app
 from absl import flags
 from imageio import imread
 import numpy as np
+import secrets
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('data_dir', None,
@@ -42,8 +42,8 @@ def main(argv):
              if os.path.isdir(os.path.join(data_folder, family))
              for character in os.listdir(os.path.join(data_folder, family))]
 
-  random.seed(1)
-  random.shuffle(folders)
+  secrets.SystemRandom().seed(1)
+  secrets.SystemRandom().shuffle(folders)
 
   metatrain_folders = folders[:-15]
   metaval_folders = folders[-15:]
@@ -73,7 +73,7 @@ def main(argv):
            imread(os.path.join(path, im))) for im in ims]
     labels_and_images.extend(li)
     if shuffle:
-      random.shuffle(labels_and_images)
+      secrets.SystemRandom().shuffle(labels_and_images)
     return labels_and_images
 
   #%%

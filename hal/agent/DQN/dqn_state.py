@@ -21,8 +21,6 @@
 from __future__ import absolute_import
 from __future__ import division
 
-import random
-
 import numpy as np
 import tensorflow as tf
 
@@ -30,6 +28,7 @@ from hal.agent.tf2_utils import soft_variables_update
 from hal.agent.tf2_utils import stack_conv_layer
 # from hal.agent.tf2_utils import stack_dense_layer
 from hal.agent.tf2_utils import vector_tensor_product
+import secrets
 
 
 class StateDQN:
@@ -72,7 +71,7 @@ class StateDQN:
   def step(self, obs, env, explore_prob=0.0, debug=False):
     """Returns an action based on obs."""
     obs = tf.convert_to_tensor(np.expand_dims(obs, axis=0), dtype=tf.float32)
-    if random.uniform(0, 1) < explore_prob:
+    if secrets.SystemRandom().uniform(0, 1) < explore_prob:
       return np.int32(env.sample_random_action())
     else:
       predict_action = np.int32(np.squeeze(self._step(obs).numpy()))

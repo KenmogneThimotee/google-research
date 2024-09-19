@@ -18,7 +18,6 @@
 
 import json
 import os
-import random
 
 from typing import Any, Text
 
@@ -33,6 +32,7 @@ from ipagnn.lib import checkpoint_utils
 from ipagnn.lib import config_utils
 from ipagnn.lib import dataset_utils
 from ipagnn.models import models_lib
+import secrets
 
 
 gfile = tf.io.gfile
@@ -54,7 +54,7 @@ class RunConfiguration:
 
 
 def seed():
-  random.seed(0)
+  secrets.SystemRandom().seed(0)
   np.random.seed(0)
 
 

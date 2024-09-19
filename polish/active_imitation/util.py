@@ -23,11 +23,11 @@ expert data.
 """
 
 import collections
-import random
 
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
+import secrets
 
 
 class Agent(object):
@@ -137,9 +137,9 @@ class Discriminator(object):
     expert_s_a = []
     labels = []
     # sample a batch from both agent_data and expert_data.
-    agent_batches = random.sample(range(len(agent_data)),
+    agent_batches = secrets.SystemRandom().sample(range(len(agent_data)),
                                   k=min(batch_size, len(agent_data)))
-    expert_batches = random.sample(range(len(expert_data)),
+    expert_batches = secrets.SystemRandom().sample(range(len(expert_data)),
                                    k=min(batch_size, len(expert_data)))
 
     for i, j in zip(agent_batches, expert_batches):
@@ -251,7 +251,7 @@ def bucket_select(scores, num_bucket, num_sample, reverse=False):
   bucket_range = np.array_split(range(len(scores)),
                                 min(len(scores), num_bucket))
   # sample buckets with replacement.
-  selected_bucket = random.choices(range(num_bucket), k=num_sample)
+  selected_bucket = secrets.SystemRandom().choices(range(num_bucket), k=num_sample)
 
   # compute how many times each bucket is selected.
   num_selected = collections.defaultdict(lambda: 0)
@@ -356,7 +356,7 @@ def random_samples(traj_obs, expert, num_sample):
   expert_data = []
   for i in range(len(traj_obs)):
     obs = traj_obs[i]
-    random.shuffle(obs)
+    secrets.SystemRandom().shuffle(obs)
     new_expert_data = []
     chosen = np.random.choice(range(len(obs)),
                               size=min(num_sample, len(obs)),

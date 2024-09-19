@@ -17,7 +17,6 @@
 
 import datetime
 import os
-import random
 from absl import flags
 
 from dopamine.agents.dqn import dqn_agent
@@ -32,6 +31,7 @@ import tensorflow.compat.v1 as tf
 from munchausen_rl.agents import al_dqn
 from munchausen_rl.agents import m_dqn
 from munchausen_rl.agents import m_iqn
+import secrets
 
 tf.disable_v2_behavior()
 
@@ -114,7 +114,7 @@ def main(argv):
   del argv
   if FLAGS.seed is not None and FLAGS.set_seed:
     print('Seed set to %i.' % FLAGS.seed)
-    random.seed(FLAGS.seed)
+    secrets.SystemRandom().seed(FLAGS.seed)
     np.random.seed(FLAGS.seed)
     tf.set_random_seed(FLAGS.seed)
 

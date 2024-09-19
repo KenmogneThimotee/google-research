@@ -15,8 +15,8 @@
 
 # Lint as: python3
 """Graph search algorithms for exploration."""
+import secrets
 
-import random
 # pylint: disable=g-import-not-at-top
 try:
   import queue
@@ -61,7 +61,7 @@ def dfs_paths(graph, agent, goal, num_actions, maxlen):
     curr_pos, path = stack.pop()
     if len(path) >= maxlen:
       continue
-    random.shuffle(all_actions)
+    secrets.SystemRandom().shuffle(all_actions)
     for action in all_actions:
       agent.reset(curr_pos)
       agent.act(action)

@@ -17,11 +17,11 @@
 """Augment operators."""
 
 import functools
-import random
 
 import tensorflow as tf
 
 import deep_representation_one_class.simclr.data_util as simclr_ops
+import secrets
 
 
 def base_augment(is_training=True, **kwargs):
@@ -358,7 +358,7 @@ class ColorJitter(object):
     if self.hue is not None:
       transforms.append(
           functools.partial(tf.image.random_hue, max_delta=self.hue))
-    random.shuffle(transforms)
+    secrets.SystemRandom().shuffle(transforms)
     return transforms
 
   def __call__(self, image, is_training=True):

@@ -16,10 +16,10 @@
 # Adapted from OpenAI Gym Baselines
 # https://github.com/openai/baselines/blob/master/baselines/deepq/replay_buffer.py
 import numpy as np
-import random
 from collections import defaultdict, deque
 from strategic_exploration.hrl.schedule import LinearSchedule
 from strategic_exploration.hrl.segment_tree import MinSegmentTree, SumSegmentTree
+import secrets
 
 
 class ReplayBuffer(object):
@@ -187,7 +187,7 @@ class PrioritizedReplayBuffer(ReplayBuffer):
     res = []
     for _ in range(batch_size):
       # TODO(szymon): should we ensure no repeats?
-      mass = random.random() * self._it_sum.sum(0, len(self._storage) - 1)
+      mass = secrets.SystemRandom().random() * self._it_sum.sum(0, len(self._storage) - 1)
       idx = self._it_sum.find_prefixsum_idx(mass)
       res.append(idx)
     return res

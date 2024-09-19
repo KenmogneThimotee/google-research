@@ -17,7 +17,6 @@
 import numpy as np
 import os
 import sys
-import random
 import torch
 from torch.nn.parameter import Parameter
 import torch.nn.functional as F
@@ -33,6 +32,7 @@ from tqdm import tqdm
 from aloe.synthetic.utils import learn_score, get_binmap, float2bin, bin2float, plot_heat, setup_data
 from aloe.synthetic.reverse_train import main_loop, get_base_sampler_and_f
 from torch_scatter import scatter_add
+import secrets
 
 
 def calc_log_prob(init_prob, traj_prob, rep_init, rep_rows, final_samples):
@@ -60,7 +60,7 @@ def proposal_optimizer(optimizer, sampler, x0, n_steps):
 
 if __name__ == '__main__':
     np.random.seed(cmd_args.seed)
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     torch.manual_seed(cmd_args.seed)
     set_device(cmd_args.gpu)
     db, bm, inv_bm = setup_data(cmd_args)

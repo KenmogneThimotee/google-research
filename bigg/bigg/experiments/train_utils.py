@@ -21,7 +21,6 @@ from __future__ import print_function
 import os
 import sys
 import numpy as np
-import random
 import torch
 import torch.optim as optim
 import networkx as nx
@@ -31,6 +30,7 @@ from bigg.model.tree_clib.tree_lib import setup_treelib, TreeLib
 import torch.distributed as dist
 from torch.multiprocessing import Process
 from bigg.model.tree_model import RecurTreeGen
+import secrets
 
 
 def get_node_dist(graphs):
@@ -100,7 +100,7 @@ def setup_dist(rank):
     else:
         set_device(-1)
     setup_treelib(cmd_args)
-    random.seed(cmd_args.seed + rank)
+    secrets.SystemRandom().seed(cmd_args.seed + rank)
     torch.manual_seed(cmd_args.seed + rank)
     np.random.seed(cmd_args.seed + rank)
 
@@ -142,7 +142,7 @@ def data_parallel_main(rank, train_graphs, fn_kwargs):
     model = build_model(rank)
     optimizer = optim.Adam(model.parameters(), lr=cmd_args.learning_rate, weight_decay=1e-4)
 
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     indices = list(range(len(train_graphs)))
     for epoch in range(cmd_args.num_epochs):
         pbar = range(cmd_args.epoch_save)
@@ -151,7 +151,7 @@ def data_parallel_main(rank, train_graphs, fn_kwargs):
 
         optimizer.zero_grad()
         for idx in pbar:
-            random.shuffle(indices)
+            secrets.SystemRandom().shuffle(indices)
             st = cmd_args.batch_size * rank
             batch_indices = indices[st : st + cmd_args.batch_size]
             num_nodes = sum([len(train_graphs[i]) for i in batch_indices])

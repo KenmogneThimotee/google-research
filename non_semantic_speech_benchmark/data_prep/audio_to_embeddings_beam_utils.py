@@ -27,7 +27,6 @@ TFLite file should have the `.tflite` extension.
 import copy
 import numbers
 import os
-import random
 import typing
 from absl import logging
 import apache_beam as beam
@@ -37,6 +36,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import tensorflow_hub as hub
 from non_semantic_speech_benchmark import file_utils
+import secrets
 
 
 def _tfexample_audio_to_npfloat32(ex, audio_key):
@@ -332,7 +332,7 @@ def _read_from_tfrecord(root, input_filenames, suffix):
           | f'ReadTFRecords{suffix}' >> beam.io.tfrecordio.ReadAllFromTFRecord(
               coder=beam.coders.ProtoCoder(tf.train.Example))
           | f'AddKeys{suffix}' >> beam.Map(
-              lambda x: (str(random.getrandbits(128)), x)))
+              lambda x: (str(secrets.SystemRandom().getrandbits(128)), x)))
 
 
 
