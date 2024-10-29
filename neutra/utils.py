@@ -212,7 +212,7 @@ class YAMLDictParser(flags.ArgumentParser):
   'key1: val1, key2: val2'."""
 
   def parse(self, argument):
-    return yaml.load("{" + argument + "}")
+    return yaml.load("{" + argument + "}", Loader=yaml.SafeLoader)
 
   def flag_type(self):
     return "Dict[str, Any]"
