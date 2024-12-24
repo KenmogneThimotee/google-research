@@ -21,12 +21,12 @@ from __future__ import print_function
 import collections
 import heapq
 import pprint
-import random
 import numpy as np
 import tensorflow.compat.v1 as tf
 from meta_reward_learning.semantic_parsing.nsm import data_utils
 from meta_reward_learning.semantic_parsing.nsm import env_factory
 from meta_reward_learning.semantic_parsing.nsm import graph_factory
+import secrets
 
 # To suppress division by zero in np.log, because the
 # behaviour np.log(0.0) = -inf is correct in this context.
@@ -585,7 +585,7 @@ class AllGoodReplayBuffer(ReplayBuffer):
         # Randomize the samples before truncation in case
         # when no prob information is provided and the trajs
         # need to be truncated randomly.
-        random.shuffle(samples)
+        secrets.SystemRandom().shuffle(samples)
         samples = heapq.nlargest(truncate_at_n, samples, key=lambda s: s.prob)
         self._buffer[name] = [sample.traj for sample in samples]
 

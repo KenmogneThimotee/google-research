@@ -15,7 +15,6 @@
 
 # pylint: skip-file
 import numpy as np
-import random
 import sys
 import torch
 import torch.nn as nn
@@ -31,6 +30,7 @@ from aloe.rfill.utils.rfill_grammar import STATE_TRANS, DECISION_MASK, IDX2STATE
 from aloe.rfill.sampler import RfillSubexprRnnSampler, RfillRnnSampler, beam_step
 from aloe.rfill.seq_embed import BidirIOEmbed, MLPIOEmbed
 from aloe.common.consts import N_INF, EPS
+import secrets
 
 
 def expr_cmp(e1, s1, t1, e2, s2, t2):
@@ -62,7 +62,7 @@ def build_sol(i, j, src_expr, src_bars, tgt_expr, tgt_bars, dp, cost, sols):
         p3 = src_bars[i]
         d3 = (0, 1)
         opts = [t for t in [(c1, p1, d1), (c2, p2, d2), (c3, p3, d3)] if t[0] == dp[i, j]]
-        opt = random.choice(opts)
+        opt = secrets.choice(opts)
         _, p, d = opt
         log_prob, delta = build_sol(i - d[0], j - d[1], src_expr, src_bars, tgt_expr, tgt_bars, dp, cost, sols)
         log_prob += np.log(1.0 / len(opts))

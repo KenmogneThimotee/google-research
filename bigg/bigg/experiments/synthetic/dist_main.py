@@ -23,7 +23,6 @@ import sys
 import pickle as cp
 import networkx as nx
 import numpy as np
-import random
 from tqdm import tqdm
 import torch
 import torch.optim as optim
@@ -34,6 +33,7 @@ from bigg.common.configs import cmd_args, set_device
 from bigg.model.tree_model import RecurTreeGen
 from bigg.model.tree_clib.tree_lib import setup_treelib, TreeLib
 from bigg.experiments.train_utils import sqrtn_forward_backward
+import secrets
 
 def num_expect(n):
     cnt = 0
@@ -175,7 +175,7 @@ def main(rank):
     print('done rank', rank)
 
 if __name__ == '__main__':
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     torch.manual_seed(cmd_args.seed)
     np.random.seed(cmd_args.seed)
     os.environ['MASTER_ADDR'] = '127.0.0.1'

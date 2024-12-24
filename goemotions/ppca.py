@@ -49,7 +49,6 @@ from __future__ import print_function
 
 import copy
 import os
-import random
 
 from absl import app
 from absl import flags
@@ -63,6 +62,7 @@ from scipy.stats import wilcoxon
 import seaborn as sns
 from sklearn.manifold import TSNE
 from statsmodels.stats.multitest import multipletests
+import secrets
 
 sns.set_style("whitegrid")
 plt.rcParams["xtick.major.size"] = 0
@@ -165,7 +165,7 @@ def LeaveOut(ratings, rater_msk, worker2examples, worker_id):
     average_insample.append(list(avg_insample_ex))
 
     # Shuffle raters randomly
-    random.shuffle(keep)
+    secrets.SystemRandom().shuffle(keep)
 
     # If there are two in-sample raters, just separate them
     num_raters = len(keep)
@@ -331,7 +331,7 @@ def main(_):
     all_ratings_avg.append(list(np.array(keep).mean(axis=0)))
 
     # Shuffle raters randomly
-    random.shuffle(keep)
+    secrets.SystemRandom().shuffle(keep)
 
     num_raters = len(keep)
     x.append(list(np.array(keep[:int(num_raters / 2)]).mean(axis=0)))

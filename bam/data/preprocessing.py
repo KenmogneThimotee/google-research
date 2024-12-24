@@ -21,12 +21,12 @@ from __future__ import print_function
 
 import collections
 import os
-import random
 import numpy as np
 import tensorflow.compat.v1 as tf
 
 from bam.data import feature_spec
 from bam.helpers import utils
+import secrets
 
 
 class PaddingInputExample(object):
@@ -101,7 +101,7 @@ class Preprocessor(object):
       while len(examples) % batch_size != 0:
         examples.append(PaddingInputExample())
       if is_training:
-        random.shuffle(examples)
+        secrets.SystemRandom().shuffle(examples)
       n_examples = len(examples)
       assert n_examples % batch_size == 0
       utils.mkdir(tfrecords_path.rsplit("/", 1)[0])

@@ -15,8 +15,6 @@
 
 """Training script for sign language detection."""
 
-import random
-
 from absl import app
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
@@ -26,13 +24,14 @@ from tensorflow.keras.models import load_model
 from sign_language_detection.args import FLAGS
 from sign_language_detection.dataset import get_datasets
 from sign_language_detection.model import build_model
+import secrets
 
 
 def set_seed():
   """Set seed for deterministic random number generation."""
-  seed = FLAGS.seed if FLAGS.seed is not None else random.randint(0, 1000)
+  seed = FLAGS.seed if FLAGS.seed is not None else secrets.SystemRandom().randint(0, 1000)
   tf.random.set_seed(seed)
-  random.seed(seed)
+  secrets.SystemRandom().seed(seed)
 
 
 def main(unused_argv):

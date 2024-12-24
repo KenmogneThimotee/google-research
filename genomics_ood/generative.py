@@ -20,7 +20,6 @@ from __future__ import division
 from __future__ import print_function
 import json
 import os
-import random
 from absl import flags
 import numpy as np
 from sklearn.metrics import roc_auc_score
@@ -28,6 +27,7 @@ import tensorflow as tf
 from genomics_ood import utils
 from tensorflow.contrib import rnn as contrib_rnn
 from tensorflow.contrib import training as contrib_training
+import secrets
 
 # parameters
 FLAGS = flags.FLAGS
@@ -408,7 +408,7 @@ class SeqModel(object):
 def main(_):
 
   tf.logging.set_verbosity(tf.logging.INFO)
-  random.seed(FLAGS.random_seed)
+  secrets.SystemRandom().seed(FLAGS.random_seed)
 
   params = contrib_training.HParams(
       num_steps=FLAGS.num_steps,

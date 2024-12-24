@@ -17,11 +17,11 @@
 """Utility fuctions to preprocess data."""
 
 import collections
-import random
 import numpy as np
 import six
 from tensorflow.compat.v1 import gfile
 from meta_reward_learning.semantic_parsing.nsm import nlp_utils
+import secrets
 
 DECODE_TK = '<DECODE>'
 UNK_TK = '<UNK>'
@@ -296,7 +296,7 @@ class BatchIterator(object):
     self.examples = zip(*[p[1] for p in kv_pairs])
     self.n_examples = len(self.examples)
     if shuffle:
-      random.shuffle(self.examples)
+      secrets.SystemRandom().shuffle(self.examples)
 
   def __iter__(self):
 

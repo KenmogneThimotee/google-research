@@ -18,7 +18,6 @@
 import collections
 import heapq
 import json
-import random
 from typing import Any, Dict, Iterable, List, Text, Tuple
 import unicodedata
 
@@ -27,6 +26,7 @@ import nltk
 import tensorflow.compat.v1 as tf
 
 from etcmodel.models import tokenization
+import secrets
 
 SENTENCE_GLOBAL_TOKEN_ID = 1
 QUESTION_GLOBAL_TOKEN_ID = 3
@@ -422,7 +422,7 @@ class WikiHopExample(object):
     query = single_example["query"]
     docs = single_example["supports"]
     if shuffle_docs_within_example:
-      random.shuffle(docs)
+      secrets.SystemRandom().shuffle(docs)
     candidate_answers = single_example["candidates"]
     candidate_answers = [candidate.strip() for candidate in candidate_answers]
     candidate_answers = [candidate.lower() for candidate in candidate_answers]

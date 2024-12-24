@@ -22,14 +22,14 @@ import torch
 import torch.optim as optim
 
 import numpy as np
-import random
 import networkx as nx
 from bigg.common.configs import cmd_args, set_device
 from bigg.model.tree_clib.tree_lib import setup_treelib, TreeLib
 from bigg.model.tree_model import RecurTreeGen
+import secrets
 
 if __name__ == '__main__':
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     torch.manual_seed(cmd_args.seed)
     np.random.seed(cmd_args.seed)
     set_device(cmd_args.gpu)

@@ -23,7 +23,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import os
-import random
 import time
 from absl import flags
 import numpy as np
@@ -31,6 +30,7 @@ import tensorflow.compat.v1 as tf
 
 from norml import rollout_service
 from norml.tools import utility
+import secrets
 
 flags.DEFINE_string('logs', '/tmp/', 'Logging (tensorboard) path')
 FLAGS = flags.FLAGS
@@ -69,7 +69,7 @@ class MAMLReinforcementLearning(object):
     if self.config.random_seed is not None:
       self.random_seed = self.config.random_seed
     else:
-      self.random_seed = random.randint(0, 1000000)
+      self.random_seed = secrets.SystemRandom().randint(0, 1000000)
     tf.set_random_seed(self.random_seed)
     np.random.seed(self.random_seed)
     self.inner_lr_init = self.config.inner_lr_init
@@ -529,7 +529,7 @@ class MAMLReinforcementLearning(object):
     Raises:
       ValueError: if the loss is NaN
     """
-    inner_tasks = random.sample(self.task_env_modifiers, self.tasks_batch_size)
+    inner_tasks = secrets.SystemRandom().sample(self.task_env_modifiers, self.tasks_batch_size)
     done = False
     avg_test_reward = np.NaN
     for step in range(self.current_step,
@@ -546,7 +546,7 @@ class MAMLReinforcementLearning(object):
       tf.logging.info('iteration: %d', self.current_step)
       print('iteration: %d' % self.current_step)
       if not self.fixed_tasks:
-        inner_tasks = random.sample(self.task_env_modifiers,
+        inner_tasks = secrets.SystemRandom().sample(self.task_env_modifiers,
                                     self.tasks_batch_size)
 
       # If we do rollouts locally, don't parallelize inner train loops

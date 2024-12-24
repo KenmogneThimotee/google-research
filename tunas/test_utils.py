@@ -20,14 +20,13 @@ from __future__ import absolute_import
 from __future__ import division
 
 from __future__ import print_function
-
-import random
 from typing import TypeVar, Union
 
 import tensorflow.compat.v1 as tf
 
 from tunas import basic_specs
 from tunas import schema
+import secrets
 
 
 def random_one_hot(size):
@@ -60,7 +59,7 @@ def with_random_masks(model_spec):
 def with_random_pruning(model_spec):
   """Pick a random value for each OneOf and prune away the remaining choices."""
   def update(oneof):
-    index = random.randrange(len(oneof.choices))
+    index = secrets.SystemRandom().randrange(len(oneof.choices))
     return schema.OneOf(choices=[oneof.choices[index]], tag=oneof.tag)
   return schema.map_oneofs(update, model_spec)
 

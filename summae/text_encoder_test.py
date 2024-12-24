@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 import collections
 import io
 import os
-import random
 import shutil
 import string
 
@@ -33,6 +32,7 @@ from six.moves import range  # pylint: disable=redefined-builtin
 
 import tensorflow.compat.v1 as tf
 from summae import text_encoder
+import secrets
 
 
 class NativeToUnicodeTest(tf.test.TestCase):
@@ -145,10 +145,10 @@ class SubwordTextEncoderTest(tf.test.TestCase):
     max_count = 500
 
     # Generate some long random strings.
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     long_tokens = []
     for _ in range(num_tokens):
-      long_token = "".join([random.choice(string.ascii_uppercase)
+      long_token = "".join([secrets.choice(string.ascii_uppercase)
                             for _ in range(token_length)])
       long_tokens.append(long_token)
 

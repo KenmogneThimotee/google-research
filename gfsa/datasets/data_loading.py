@@ -19,7 +19,6 @@
 import enum
 import itertools
 import queue
-import random
 import threading
 from typing import Any, Callable, Dict, Iterable, Sequence, Tuple, TypeVar
 
@@ -29,6 +28,7 @@ import jax
 import numpy as np
 
 from gfsa import jax_util
+import secrets
 
 K = TypeVar("K")
 T = TypeVar("T")
@@ -53,7 +53,7 @@ def randomly_interleave(sources,
   active = [iter(it) for it in itertools.islice(sources, simultaneous)]
   while active:
     # Pick a random active source.
-    index = random.randrange(len(active))
+    index = secrets.SystemRandom().randrange(len(active))
     try:
       # Pull from it.
       yield next(active[index])
@@ -83,7 +83,7 @@ def shuffle_with_buffer(source, buffer_size):
   buffer = list(itertools.islice(source, buffer_size))
   while buffer:
     # Pick a random element.
-    index = random.randrange(len(buffer))
+    index = secrets.SystemRandom().randrange(len(buffer))
     yield buffer[index]
     try:
       # Replace it with a new one.

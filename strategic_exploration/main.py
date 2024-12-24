@@ -17,7 +17,6 @@ import argparse
 import logging
 import numpy as np
 import os
-import random
 import socket
 import torch
 
@@ -25,6 +24,7 @@ from gtd.io import save_stdout
 from gtd.utils import Config
 from strategic_exploration.hrl.training_run import HRLTrainingRuns
 from os.path import abspath, dirname, join
+import secrets
 
 # CONFIGS ARE MERGED IN THE FOLLOWING ORDER:
 # 1. configs in args.config_paths, from left to right
@@ -40,7 +40,7 @@ arg_parser.add_argument('-x', '--reward_configs', action='append', default=[])
 arg_parser.add_argument('config_paths', nargs='+')
 args = arg_parser.parse_args()
 
-random.seed(args.seed)
+secrets.SystemRandom().seed(args.seed)
 np.random.seed(args.seed)
 torch.manual_seed(args.seed)
 

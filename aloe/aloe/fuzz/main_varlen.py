@@ -17,7 +17,6 @@
 import numpy as np
 import os
 import sys
-import random
 import torch
 import torch.nn as nn
 from torch.nn.parameter import Parameter
@@ -35,6 +34,7 @@ from aloe.synthetic.utils import learn_score
 from aloe.synthetic.reverse_train import prepare_diff_pos
 from aloe.fuzz.utils import CondRnnSampler, MLPVarLenMultinomialSampler, HexStreamDataset, CondRnnScore, CondMLPScore, GeoMultinomialSampler
 from torch_scatter import scatter_add
+import secrets
 
 
 def learn_score(pos_list, true_samples, score_fn, opt_score, neg_samples):
@@ -85,7 +85,7 @@ def get_editor(args):
 
 if __name__ == '__main__':
     np.random.seed(cmd_args.seed)
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     torch.manual_seed(cmd_args.seed)
     set_device(cmd_args.gpu)
 

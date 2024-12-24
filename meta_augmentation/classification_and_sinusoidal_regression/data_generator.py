@@ -18,12 +18,12 @@
 # pylint: disable=g-importing-member
 # example comment
 import os
-import random
 
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.platform import flags
 from utils import get_images
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -84,8 +84,8 @@ class DataGenerator(object):
           for family in os.listdir(data_folder) \
           if os.path.isdir(os.path.join(data_folder, family)) \
           for character in os.listdir(os.path.join(data_folder, family))]
-      random.seed(1)
-      random.shuffle(character_folders)
+      secrets.SystemRandom().seed(1)
+      secrets.SystemRandom().shuffle(character_folders)
       print('number of classes in the dataset', len(character_folders))
       num_val = 100
       num_train = config.get('num_train', 1200) - num_val
@@ -204,7 +204,7 @@ class DataGenerator(object):
                                               self.num_classes:(task_count +
                                                                 1) *
                                               self.num_classes]
-          random.shuffle(sampled_character_folders)
+          secrets.SystemRandom().shuffle(sampled_character_folders)
           labels_and_images = get_images(
               sampled_character_folders,
               range(self.num_classes),
@@ -227,7 +227,7 @@ class DataGenerator(object):
         for i in range(num_total_batches):
           sampled_character_folders = task_folders_new[i %
                                                        len(task_folders_new)]
-          random.shuffle(sampled_character_folders)
+          secrets.SystemRandom().shuffle(sampled_character_folders)
           labels_and_images = get_images(
               sampled_character_folders,
               range(self.num_classes),
@@ -242,8 +242,8 @@ class DataGenerator(object):
         all_filenames = []
         print('Inside expt number 1 / intershuffle / validation/testing')
         for _ in range(num_total_batches):
-          sampled_character_folders = random.sample(folders, self.num_classes)
-          random.shuffle(sampled_character_folders)
+          sampled_character_folders = secrets.SystemRandom().sample(folders, self.num_classes)
+          secrets.SystemRandom().shuffle(sampled_character_folders)
           labels_and_images = get_images(
               sampled_character_folders,
               range(self.num_classes),

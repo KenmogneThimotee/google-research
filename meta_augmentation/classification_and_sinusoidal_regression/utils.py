@@ -15,11 +15,11 @@
 
 """Utility functions."""
 import os
-import random
 
 import tensorflow as tf
 from tensorflow.contrib.layers.python import layers as tf_layers
 from tensorflow.python.platform import flags
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -30,14 +30,14 @@ def get_images(paths, labels, nb_samples=None, shuffle=True, train=True):
   # pylint: disable=g-complex-comprehension
   del train  # Unused
   if nb_samples is not None:
-    sampler = lambda x: random.sample(x, nb_samples)
+    sampler = lambda x: secrets.SystemRandom().sample(x, nb_samples)
   else:
     sampler = lambda x: x
   images = [(i, os.path.join(path, image)) \
       for i, path in zip(labels, paths) \
       for image in sampler(sorted(os.listdir(path)))]
   if shuffle:
-    random.shuffle(images)
+    secrets.SystemRandom().shuffle(images)
   return images
 
 

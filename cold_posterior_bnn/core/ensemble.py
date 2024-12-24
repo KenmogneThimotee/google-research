@@ -27,7 +27,6 @@ from __future__ import print_function
 import io
 import math
 import os
-import random
 import tempfile
 from absl import logging
 
@@ -38,6 +37,7 @@ from tqdm import tqdm
 
 from cold_posterior_bnn.core import model as bnnmodel
 from cold_posterior_bnn.core import statistics as stats
+import secrets
 
 
 def _process_dataset(dataset, output_names):
@@ -710,7 +710,7 @@ class FreshReservoir(object):
       self.reservoir[self.count - 1] = (self.count - 1, get_item_fn())
       return self.count - 1
     else:
-      j = random.randint(1, self.count)
+      j = secrets.SystemRandom().randint(1, self.count)
       if j <= self.capacity:
         self.reservoir[j - 1] = (self.count - 1, get_item_fn())
         return j - 1

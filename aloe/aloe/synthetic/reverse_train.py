@@ -17,7 +17,6 @@
 import numpy as np
 import os
 import sys
-import random
 import torch
 from torch.nn.parameter import Parameter
 import torch.nn.functional as F
@@ -32,6 +31,7 @@ from aloe.common.sampler import GibbsSampler, RnnSampler, MLPSampler, IidSampler
 from tqdm import tqdm
 from aloe.synthetic.utils import learn_score, get_binmap, float2bin, bin2float, plot_heat, setup_data, estimate_ll, estimate_hamming
 from torch_scatter import scatter_add
+import secrets
 
 
 def get_base_sampler_and_f(args):
@@ -92,7 +92,7 @@ def prepare_diff_pos(diff_pos, need_target_vals=False):
                 list_pos.append(diff_pos[i, 1])
             if len(list_pos):
                 if cmd_args.shuffle_edit:
-                    random.shuffle(list_pos)
+                    secrets.SystemRandom().shuffle(list_pos)
                 traj_lens.append(len(list_pos))
                 for j in range(len(list_pos)):
                     if j:

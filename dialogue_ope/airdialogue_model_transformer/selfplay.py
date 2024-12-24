@@ -26,7 +26,7 @@ import parlai.utils.logging as logging
 
 import math
 import json
-import random
+import secrets
 
 
 def setup_args(parser=None):
@@ -124,7 +124,7 @@ class MyLocalHumanAgent(LocalHumanAgent):
 
 
 def self_chat(opt):
-  random.seed(opt['seed'])
+  secrets.SystemRandom().seed(opt['seed'])
   partner = opt['partner_model_file']
   assert partner is not None
   partner_opt_file = opt.get('partner_opt_file')

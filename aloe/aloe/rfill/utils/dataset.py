@@ -19,11 +19,11 @@ import gzip
 import json
 import itertools
 from .rfill_parser import RobustFillParser
-import random
 import torch
 from torch.utils.data import Dataset, IterableDataset
 from aloe.common.pytorch_util import pad_sequence
 from aloe.rfill.utils.rfill_grammar import STATE_TRANS, trans_map, STATE_MAP, RFILL_VOCAB
+import secrets
 
 
 class RFillSample(object):
@@ -120,11 +120,11 @@ class CookedInfRfill(IterableDataset):
                 list_files.append(os.path.join(self.data_dir, fname))
 
         while True:
-            random.shuffle(list_files)
+            secrets.SystemRandom().shuffle(list_files)
             for fname in list_files:
                 with gzip.open(fname, 'rb') as f:
                     raw_json_strings = f.readlines()
-                random.shuffle(raw_json_strings)
+                secrets.SystemRandom().shuffle(raw_json_strings)
                 for row in raw_json_strings:
                     data_dict = json.loads(row.strip())
                     inputs, outputs, prog_tokens = data_dict['inputs'], data_dict['outputs'], data_dict['exprs']

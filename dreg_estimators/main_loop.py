@@ -19,7 +19,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import os
-import random
 import numpy as np
 from six.moves import range
 from six.moves import zip
@@ -28,6 +27,7 @@ import tensorflow_probability as tfp
 
 from dreg_estimators import model
 from dreg_estimators import utils
+import secrets
 
 tfd = tfp.distributions
 flags = tf.flags
@@ -301,7 +301,7 @@ def main(unused_argv):
 
       while cur_step < FLAGS.max_steps and not sess.should_stop():
         n_epoch += 1
-        random.shuffle(indices)
+        secrets.SystemRandom().shuffle(indices)
 
         for i in range(0, train_xs.shape[0], FLAGS.batch_size):
           if sess.should_stop() or cur_step > FLAGS.max_steps:

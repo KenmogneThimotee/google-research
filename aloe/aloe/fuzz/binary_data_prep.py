@@ -18,10 +18,10 @@ from aloe.common.configs import cmd_args
 import pickle as cp
 import os
 import sys
-import random
 import numpy as np
 import binascii
 from tqdm import tqdm
+import secrets
 
 def get_common_prefix(prefix, new_st):
     if prefix is None:
@@ -64,7 +64,7 @@ def file_gen(root_folder):
 
 
 if __name__ == '__main__':
-    random.seed(cmd_args.seed)
+    secrets.SystemRandom().seed(cmd_args.seed)
     np.random.seed(cmd_args.seed)
 
     prefix = None

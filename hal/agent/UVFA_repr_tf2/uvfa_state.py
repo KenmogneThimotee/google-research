@@ -22,8 +22,6 @@
 from __future__ import absolute_import
 from __future__ import division
 
-import random
-
 import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
@@ -33,6 +31,7 @@ from hal.agent.tf2_utils import stack_conv_layer
 from hal.agent.tf2_utils import stack_dense_layer
 from hal.agent.tf2_utils import vector_tensor_product
 import hal.utils.word_vectorization as wv
+import secrets
 
 embedding_group_1 = ('swivel', 'nnlm', 'word2vec')
 
@@ -130,7 +129,7 @@ class StateUVFA2:
     if explore_prob == 0.0:  # TODO(ydjiang): find better way to initialize
       self.online_encoder([g, obs])
       self.target_encoder([g, obs])
-    if random.uniform(0, 1) < explore_prob:
+    if secrets.SystemRandom().uniform(0, 1) < explore_prob:
       return np.int32(env.sample_random_action())
     else:
       predict_action = np.int32(np.squeeze(self._step(obs, g).numpy()))

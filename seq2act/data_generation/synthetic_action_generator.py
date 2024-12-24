@@ -92,8 +92,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import random
-
 from enum import Enum
 import numpy as np
 import tensorflow.compat.v1 as tf
@@ -104,6 +102,7 @@ from seq2act.data_generation import proto_utils
 from seq2act.data_generation import resources
 from seq2act.data_generation import string_utils
 from seq2act.data_generation import view_hierarchy
+import secrets
 
 COMMA = ','
 
@@ -555,7 +554,7 @@ def _get_obj_type_str(action_rule,
       obj_type_candidates.extend(_CLICKABLE_OBJECT_DESC[ui_object.obj_type])
   else:
     assert False, 'wrong platform'
-  return random.choice(obj_type_candidates)
+  return secrets.choice(obj_type_candidates)
 
 
 def _get_obj_desc_str(action_rule,
@@ -626,8 +625,8 @@ def _get_verb_str_action_type(action_type, unused_obj_type,
   else:
     assert action_type == 'swipe', 'Illegal action type received'
     verbs_and_actions = [(_SWIPE_VERBS, common.ActionTypes.SWIPE)]
-  action_verbs, action_type = random.choice(verbs_and_actions)
-  action_verb_str = random.choice(action_verbs)
+  action_verbs, action_type = secrets.choice(verbs_and_actions)
+  action_verb_str = secrets.choice(action_verbs)
   return (action_verb_str, action_type)
 
 
@@ -851,17 +850,17 @@ def _fill_action_info(action):
 
 def _get_obj_article_word():
   object_article_words = ['', 'the']
-  return random.choice(object_article_words)
+  return secrets.choice(object_article_words)
 
 
 def _get_input_prep_word():
   input_prep_words = ['into', 'in']
-  return random.choice(input_prep_words)
+  return secrets.choice(input_prep_words)
 
 
 def _get_swipe_prep_word():
   swipe_prep_words = ['to', 'until']
-  return random.choice(swipe_prep_words)
+  return secrets.choice(swipe_prep_words)
 
 
 def _count_chars(char_string):
@@ -879,7 +878,7 @@ def _generate_string_seq():
   Returns:
     A string containing multiple randomly generated words.
   """
-  input_word_num = random.randint(1, config.MAX_INPUT_WORD_NUMBER)
+  input_word_num = secrets.SystemRandom().randint(1, config.MAX_INPUT_WORD_NUMBER)
   return ' '.join(resources.get_random_words(input_word_num))
 
 

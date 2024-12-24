@@ -19,11 +19,10 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
-import random
 import re
 
 import numpy as np
+import secrets
 
 
 _RELATION_SYNONYMS = {
@@ -145,22 +144,22 @@ def paraphrase_sentence(text, synonym_tables=None, delete_color=False, k=2):
   """
   if not synonym_tables:
     synonym_tables = _CLEVR_SYNONYM_TABLES
-  tables = random.sample(synonym_tables, k)
-  if delete_color and random.uniform(0, 1) < 0.5:
-    tables = random.sample(_COLORS, 5)
+  tables = secrets.SystemRandom().sample(synonym_tables, k)
+  if delete_color and secrets.SystemRandom().uniform(0, 1) < 0.5:
+    tables = secrets.SystemRandom().sample(_COLORS, 5)
     subed = False
     for t in tables:
       if subed:
         break
       for w in t:
         if w in text:
-          text = re.sub(w, random.choice(t[w]), text)
+          text = re.sub(w, secrets.choice(t[w]), text)
           subed = True
   else:
     for t in tables:
       for w in t:
         if w in text:
-          text = re.sub(w, random.choice(t[w]), text)
+          text = re.sub(w, secrets.choice(t[w]), text)
   return text
 
 
@@ -173,21 +172,21 @@ def negate_unary_sentence(text):
       mutate_candiate['color'] = (i, w)
     elif w in _OTHER_DIRECTIONS:
       mutate_candiate['direction'] = (i, w)
-  toss = random.random()
+  toss = secrets.SystemRandom().random()
   if toss < 0.33 and 'color' in mutate_candiate:
     i, color = mutate_candiate['color']
-    new_color = random.choice(_OTHER_COLORS[color])
+    new_color = secrets.choice(_OTHER_COLORS[color])
     words[i] = new_color
-  elif 0.33 < random.random() < 0.66 and 'direction' in mutate_candiate:
+  elif 0.33 < secrets.SystemRandom().random() < 0.66 and 'direction' in mutate_candiate:
     i, direction = mutate_candiate['direction']
-    new_direction = random.choice(_OTHER_DIRECTIONS[direction])
+    new_direction = secrets.choice(_OTHER_DIRECTIONS[direction])
     words[i] = new_direction
   elif 'direction' in mutate_candiate and 'color' in mutate_candiate:
     i, color = mutate_candiate['color']
-    new_color = random.choice(_OTHER_COLORS[color])
+    new_color = secrets.choice(_OTHER_COLORS[color])
     words[i] = new_color
     i, direction = mutate_candiate['direction']
-    new_direction = random.choice(_OTHER_DIRECTIONS[direction])
+    new_direction = secrets.choice(_OTHER_DIRECTIONS[direction])
     words[i] = new_direction
   else:
     return None

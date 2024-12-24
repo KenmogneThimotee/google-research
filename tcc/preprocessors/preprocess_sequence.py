@@ -18,12 +18,11 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
-import random
 import enum
 
 import tensorflow.compat.v2 as tf
 from tcc.preprocessors import sequence_preprocessor
+import secrets
 
 
 class SequenceType(enum.Enum):
@@ -249,7 +248,7 @@ def apply_sequence_preprocessing(tensor,
               x, *preprocess_args[SATURATION]))
     # pylint: enable=g-long-lambda
     if randomize_color_distortion:
-      random.shuffle(functions)
+      secrets.SystemRandom().shuffle(functions)
     for function in functions:
       tensor = function(tensor)
 
