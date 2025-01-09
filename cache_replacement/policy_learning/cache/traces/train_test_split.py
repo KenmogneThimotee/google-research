@@ -35,6 +35,7 @@ import subprocess
 
 import numpy as np
 import tqdm
+from security import safe_command
 
 if __name__ == "__main__":
   # The cache sets used in the paper:
@@ -100,7 +101,7 @@ if __name__ == "__main__":
 
   cmd = f"split -l {split_length} --numeric-suffixes all.csv {PREFIX}"
   print(cmd)
-  subprocess.run(cmd, check=True, shell=True)
+  safe_command.run(subprocess.run, cmd, check=True, shell=True)
 
   # Removes the extra accesses that don't fit into batch_size multiples.
   cmd = f"wc -l {PREFIX}10"
