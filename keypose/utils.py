@@ -417,7 +417,7 @@ class MeshObj:
     # Just read vertices, not other elements of the .obj file.
     kps = {}
     with open(path, 'r') as f:
-      line = f.readline()
+      line = f.readline(5_000_000)
       while True:
         if not line:
           break
@@ -432,7 +432,7 @@ class MeshObj:
             kp_val = np.mean(vertices, axis=0)
             kps[kp_num] = kp_val
         else:
-          line = f.readline()
+          line = f.readline(5_000_000)
     keypoints = [kps[i] for i in range(len(kps))]
     if not keypoints:
       print('Did not find any keypoints')

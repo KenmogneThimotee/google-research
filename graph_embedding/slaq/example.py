@@ -45,7 +45,7 @@ def read_graph(filename):
     spmatrix: Sparse adjacency matrix of the graph in the CSR format.
   """
   with open(filename, 'r') as file:
-    n_nodes = int(file.readline())
+    n_nodes = int(file.readline(5_000_000))
     adjacency = adjacency = scipy.sparse.dok_matrix((n_nodes, n_nodes),
                                                     dtype=np.float32)
     for line in file:
