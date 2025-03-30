@@ -19,12 +19,11 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import random
-
 import numpy as np
 import tensorflow.compat.v1 as tf
 
 from caql import caql_network
+import secrets
 
 
 class CaqlAgent(object):
@@ -272,7 +271,7 @@ class CaqlAgent(object):
       # now compute the states for clusters using FF-traversal algorithm
       # FF-Traversal Algorithm:
       # 1. Pick C = {x}, for an arbitrary point x
-      init_state = random.choice(noncluster_states)
+      init_state = secrets.choice(noncluster_states)
       cluster_states.append(init_state)
       # 2. Repeat until C has k centers:
       noncluster_states.remove(init_state)

@@ -23,7 +23,6 @@ from __future__ import print_function
 import functools
 import json
 import os
-import random
 from absl import app
 from absl import flags
 from absl import logging
@@ -42,6 +41,7 @@ from tensorflow.compat.v1 import gfile
 from mol_dqn.chemgraph.mcts import deep_q_networks
 from mol_dqn.chemgraph.mcts import molecules as molecules_mdp
 from mol_dqn.chemgraph.tensorflow import core
+import secrets
 
 
 flags.DEFINE_float('sim_delta', 0.0, 'similarity_constraint')
@@ -978,7 +978,7 @@ def run_training(hparams, dqn):
     global_step = 0
     for episode in range(FLAGS.num_episodes):
       for _ in range(800):
-        mol = random.choice(all_mols)
+        mol = secrets.choice(all_mols)
         environment = Molecule(
             target_molecule=mol,
             atom_types=set(hparams.atom_types),

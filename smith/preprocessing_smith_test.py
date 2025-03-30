@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import random
 import tempfile
 
 from absl import flags
@@ -21,6 +20,7 @@ import tensorflow.compat.v1 as tf
 
 from smith import preprocessing_smith
 from smith.bert import tokenization
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -46,7 +46,7 @@ class PreprocessingSmithTest(tf.test.TestCase):
     self.tokenizer = tokenization.FullTokenizer(
         vocab_file=self.vocab_file, do_lower_case=True)
     self.vocab_words = list(self.tokenizer.vocab.keys())
-    self.rng = random.Random(12345)
+    self.rng = secrets.SystemRandom().Random(12345)
     self.doc_one_tokens, _ = preprocessing_smith.get_smith_model_tokens(
         doc_one_text, self.tokenizer, [0, 0])
     self.max_sent_length_by_word = 20

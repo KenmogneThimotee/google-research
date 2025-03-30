@@ -20,7 +20,7 @@ from __future__ import print_function
 
 import collections
 import copy
-import random
+import secrets
 
 
 def count_cooccurrences(walks, window_size, vocab_index_lookup=None):
@@ -84,7 +84,7 @@ def count_cooccurrences(walks, window_size, vocab_index_lookup=None):
     for c in cooccurrence:
       cooccurrence_list.append(c)
   print('Shuffling co-occurrences...')
-  random.shuffle(cooccurrence_list)
+  secrets.SystemRandom().shuffle(cooccurrence_list)
 
   # Extract vocab into ordered tokens
   index_vocab_list = [0] * len(vocab_index_lookup)

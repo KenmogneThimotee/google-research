@@ -21,7 +21,6 @@ import functools
 import inspect
 import logging as std_logging
 import pprint
-import random
 import types
 import uuid
 
@@ -29,6 +28,7 @@ from absl import logging
 import numpy as np
 import pandas as pd
 import tensorflow.compat.v1 as tf
+import secrets
 
 MIN_INT = np.iinfo(np.int64).min
 MAX_INT = np.iinfo(np.int64).max
@@ -92,7 +92,7 @@ def set_seed(seed):
   """Sets global Numpy, Tensorboard, and random seed."""
   np.random.seed(seed)
   tf.set_random_seed(seed)
-  random.seed(seed, version=1)
+  secrets.SystemRandom().seed(seed, version=1)
 
 
 def to_list(values, none_to_list=True):

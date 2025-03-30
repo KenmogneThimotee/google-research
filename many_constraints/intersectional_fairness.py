@@ -16,8 +16,6 @@
 # Lint as: python3
 """Intersectional fairness with many constraint."""
 
-import random
-
 from absl import app
 from absl import flags
 import numpy as np
@@ -25,6 +23,7 @@ import pandas as pd
 from sklearn import model_selection
 import tensorflow.compat.v1 as tf
 import tensorflow_constrained_optimization as tfco
+import secrets
 
 
 flags.DEFINE_boolean("constrained", True, "Perform constrained optimization?")
@@ -263,7 +262,7 @@ def train_unconstrained(
   """
   tf.set_random_seed(121212)
   np.random.seed(212121)
-  random.seed(333333)
+  secrets.SystemRandom().seed(333333)
 
   x_train, y_train, _, x_vali, y_vali, _, x_test, y_test, _ = dataset
 
@@ -358,7 +357,7 @@ def train_constrained(
   """
   tf.set_random_seed(121212)
   np.random.seed(212121)
-  random.seed(333333)
+  secrets.SystemRandom().seed(333333)
 
   x_train, y_train, z_train, x_vali, y_vali, _, x_test, y_test, _ = dataset
 

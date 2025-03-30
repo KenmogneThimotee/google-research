@@ -18,13 +18,12 @@
 
 The class MunchausenDQNAgent inherits from Dopamine's DQNAgent.
 """
-
-import random
 from dopamine.agents.dqn import dqn_agent
 import gin
 import tensorflow.compat.v1 as tf
 
 from munchausen_rl.common import utils
+import secrets
 
 tf.disable_v2_behavior()
 
@@ -190,9 +189,9 @@ class MunchausenDQNAgent(dqn_agent.DQNAgent):
           self.training_steps,
           self.min_replay_history,
           self.epsilon_train)
-    if random.random() <= epsilon:
+    if secrets.SystemRandom().random() <= epsilon:
       # Choose a random action with probability epsilon.
-      return random.randint(0, self.num_actions - 1)
+      return secrets.SystemRandom().randint(0, self.num_actions - 1)
     else:
       # Choose the action with highest Q-value at the current state.
       if self._interact == 'stochastic':

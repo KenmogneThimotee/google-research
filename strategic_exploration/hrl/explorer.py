@@ -15,10 +15,10 @@
 
 import abc
 import numpy as np
-import random
 from strategic_exploration.hrl.action import DefaultAction
 from strategic_exploration.hrl.justification import Justification
 from collections import Counter
+import secrets
 
 
 class Explorer(object):
@@ -106,7 +106,7 @@ class UniformRandomExplorer(Explorer):
       self._no_ops_left -= 1
       return action, s
 
-    action = DefaultAction(random.randint(0, self._num_actions - 1))
+    action = DefaultAction(secrets.SystemRandom().randint(0, self._num_actions - 1))
     s = "uniform random from {}: {} / {} visits, steps left {}".format(
         self._node.uid, self._node.visit_count, self._node.min_visit_count,
         self._steps_left)
@@ -160,7 +160,7 @@ class RepeatedActionsExplorer(Explorer):
     if self._repeat == 0:
       self._repeat = self._repeat_sampler()
       self._repeated_action = DefaultAction(
-          random.randint(0, self._num_actions - 1))
+          secrets.SystemRandom().randint(0, self._num_actions - 1))
 
     self._repeat -= 1
     s = "repeat {} random from {}: {} / {} visits, steps left {}".format(

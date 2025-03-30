@@ -28,7 +28,6 @@ from __future__ import print_function
 import functools
 import json
 import os
-import random
 import time
 
 from absl import app
@@ -53,6 +52,7 @@ from mol_dqn.chemgraph.mcts import deep_q_networks
 from mol_dqn.chemgraph.mcts import molecules as molecules_mdp
 from mol_dqn.chemgraph.py import molecules
 from mol_dqn.chemgraph.tensorflow import core
+import secrets
 
 flags.DEFINE_string('model_dir',
                     '/namespace/gas/primary/zzp/dqn/r=3/exp2_bs_dqn',
@@ -217,7 +217,7 @@ def run_training(hparams, environment, dqn):
     sess.run(dqn.update_op)
     global_step = 0
     for episode in range(FLAGS.num_episodes * 6):
-      sim_weight = random.random()
+      sim_weight = secrets.SystemRandom().random()
       dqn.objective_weight = np.array([[sim_weight], [1 - sim_weight]])
       logging.info('Episode %i, ObjWeight %s', episode,
                    str(dqn.objective_weight))

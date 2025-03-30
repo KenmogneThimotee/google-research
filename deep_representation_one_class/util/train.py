@@ -18,7 +18,6 @@
 
 import json
 import os
-import random
 import shutil
 import time
 
@@ -36,6 +35,7 @@ from deep_representation_one_class.data.fmnist import FashionMNISTOOD
 from deep_representation_one_class.model import resnet as model
 import deep_representation_one_class.util.metric as util_metric
 from deep_representation_one_class.util.scheduler import CustomLearningRateSchedule as CustomSchedule
+import secrets
 
 _SUPPORTED_DATASET = frozenset([
     'cifar10ood', 'cifar20ood', 'cifar100ood', 'fashion_mnistood', 'fmnistood',
@@ -122,7 +122,7 @@ class BaseTrain(object):
   def set_random_seed(self):
     seed = self.seed
     if seed > 0:
-      random.seed(seed)
+      secrets.SystemRandom().seed(seed)
       np.random.seed(seed)
       tf.random.set_seed(seed)
 

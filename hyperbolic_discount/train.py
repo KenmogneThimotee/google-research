@@ -19,7 +19,6 @@ r"""Train a hyperbolic agent.
 
 import json
 import os
-import random
 
 
 from absl import app
@@ -27,6 +26,7 @@ from absl import flags
 from dopamine.discrete_domains import run_experiment
 import numpy as np
 import tensorflow.compat.v1 as tf
+import secrets
 
 
 
@@ -67,7 +67,7 @@ def launch_experiment(create_runner_fn, create_agent_fn):
   s = FLAGS.seed
   tf.set_random_seed(s)
   np.random.seed(s)
-  random.seed(s)
+  secrets.SystemRandom().seed(s)
 
   run_experiment.load_gin_configs(FLAGS.gin_files, FLAGS.gin_bindings)
   runner = create_runner_fn(

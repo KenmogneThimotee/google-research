@@ -23,7 +23,6 @@ import copy
 import json
 import operator
 import os
-import random
 import time
 from call_glove import GloVe
 from eval_utils import load_numpy_matrix
@@ -42,6 +41,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 import tensorflow.compat.v1 as tf
+import secrets
 
 # pylint: disable=missing-docstring
 # pylint: disable=redefined-outer-name
@@ -332,7 +332,7 @@ for i, node in enumerate(tokens):
 walks = list(
     generage_random_walks(
         G, walks_per_node=WALKS_PER_NODE, walk_length=WALK_LENGTH))
-random.shuffle(walks)
+secrets.SystemRandom().shuffle(walks)
 walks_fn = os.path.join(SAVE_DIR, 'walks')
 with open(walks_fn, 'w') as f:
   f.write(json.dumps(walks))

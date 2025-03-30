@@ -31,12 +31,12 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import csv
-import random
 
 from absl import app
 from absl import flags
 
 import constants as const
+import secrets
 
 flags.DEFINE_string(
     "input", "",
@@ -86,7 +86,7 @@ def randomly_question_features():
         if not v:
           new_nulled_variables.append(v)
           new_variables.append(v)
-        elif random.random() < FLAGS.proportion:
+        elif secrets.SystemRandom().random() < FLAGS.proportion:
           new_nulled_variables.append("")
           new_variables.append("?")
           if language not in features_to_predict:

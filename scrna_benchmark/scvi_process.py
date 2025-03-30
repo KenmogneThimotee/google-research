@@ -27,7 +27,6 @@ import collections
 import csv
 import itertools
 import os
-import random
 import tempfile
 
 from absl import app
@@ -44,6 +43,7 @@ import sklearn.cluster
 import sklearn.metrics
 import tensorflow as tf
 import torch
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -314,7 +314,7 @@ def main(unused_argv):
       continue
 
     np.random.seed(conf.seed)
-    random.seed(conf.seed)
+    secrets.SystemRandom().seed(conf.seed)
     torch.manual_seed(conf.seed)
     latent, elbo_train_set, elbo_test_set = compute_scvi_latent(
         scvi_dataset=scvi_dataset,

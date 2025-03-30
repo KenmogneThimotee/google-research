@@ -27,7 +27,6 @@ from __future__ import division
 from __future__ import print_function
 
 import functools
-import random
 import numpy as np
 import tensorflow.compat.v1 as tf
 
@@ -36,6 +35,7 @@ from norml import policies
 from norml.envs import cartpole_sensor_bias_env
 from norml.envs import halfcheetah_motor_env
 from norml.envs import move_point_env
+import secrets
 
 
 def _early_termination_avg(rewards, num_steps, avg_reward):
@@ -46,7 +46,7 @@ def _early_termination_avg(rewards, num_steps, avg_reward):
   return len_ok and val_ok
 
 MOVE_POINT_ROTATE_MAML = dict(
-    random_seed=random.randint(0, 1000000),
+    random_seed=secrets.SystemRandom().randint(0, 1000000),
     num_outer_iterations=1000,
     task_generator=functools.partial(
         move_point_env.MovePointEnv,
@@ -179,7 +179,7 @@ MOVE_POINT_ROTATE_SPARSE_NORML.update(
     pol_log_std_init=-0.6)
 
 CARTPOLE_SENSOR_DR = dict(
-    random_seed=random.randint(0, 1000000),
+    random_seed=secrets.SystemRandom().randint(0, 1000000),
     num_outer_iterations=1000,
     task_generator=functools.partial(
         cartpole_sensor_bias_env.CartpoleSensorBiasEnv),
@@ -258,7 +258,7 @@ CARTPOLE_SENSOR_NORML.update(
     pol_log_std_init=-3.5)
 
 HALFCHEETAH_MOTOR_DR = dict(
-    random_seed=random.randint(0, 1000000),
+    random_seed=secrets.SystemRandom().randint(0, 1000000),
     num_outer_iterations=1000,
     task_generator=functools.partial(halfcheetah_motor_env.HalfcheetahMotorEnv),
     task_env_modifiers=[{

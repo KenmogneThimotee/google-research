@@ -29,7 +29,6 @@ from __future__ import print_function
 
 import math
 import os
-import random
 import time
 
 from absl import app
@@ -47,6 +46,7 @@ from social_rl.adversarial_env import adversarial_env
 from social_rl.adversarial_env import adversarial_env_parallel
 from social_rl.adversarial_env import adversarial_eval
 from social_rl.adversarial_env import agent_train_package
+import secrets
 
 
 flags.DEFINE_string('root_dir', os.getenv('TEST_UNDECLARED_OUTPUTS_DIR'),
@@ -408,7 +408,7 @@ def train_eval(
       # Used to interleave randomized episodes with adversarial training
       random_episodes = False
       if percent_random_episodes > 0:
-        chance_random = random.random()
+        chance_random = secrets.SystemRandom().random()
         if chance_random < percent_random_episodes:
           random_episodes = True
           if debug: logging.info('RANDOM EPISODE')

@@ -22,7 +22,6 @@ from __future__ import absolute_import
 from __future__ import division
 
 import os
-import random
 
 import numpy as np
 import tensorflow as tf
@@ -32,6 +31,7 @@ from hal.agent.common import get_vars
 from hal.agent.common import stack_conv_layer
 from hal.agent.common import stack_dense_layer
 from hal.agent.common import vector_tensor_product
+import secrets
 
 
 class StateUVFA:
@@ -87,7 +87,7 @@ class StateUVFA:
     Returns:
       an action
     """
-    if random.uniform(0, 1) < explore_prob:
+    if secrets.SystemRandom().uniform(0, 1) < explore_prob:
       return env.sample_random_action()
     else:
       feed_dict = {

@@ -17,7 +17,6 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-import random
 import time
 from absl import logging
 import gin
@@ -25,6 +24,7 @@ import numpy as np
 from scipy.stats import multivariate_normal
 from polish.mcts import mcts_node as m_node
 from polish.utils import performance
+import secrets
 
 
 @gin.configurable(blacklist=['call_policy'])
@@ -395,7 +395,7 @@ class MCTSPlayer(object):
         if not bool(self.root.children):
           return -1
         cdf = self.root.get_children_probs(is_beginning=True).cumsum()
-        selection = random.random()
+        selection = secrets.SystemRandom().random()
         move = cdf.searchsorted(selection)
         if move in self.root.children:
           return move

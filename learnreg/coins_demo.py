@@ -20,7 +20,6 @@ from __future__ import division
 from __future__ import print_function
 
 import math
-import random
 
 from absl import app
 from absl import flags
@@ -30,6 +29,7 @@ from six.moves import xrange
 from typing import Dict, List
 
 from learnreg import tuning_algorithms
+import secrets
 
 flags.DEFINE_integer('num_coins', 100000, 'Number of coins')
 flags.DEFINE_integer('num_training_flips_per_coin', 1,
@@ -158,7 +158,7 @@ def main(argv):
 
   print('True lambda =', FLAGS.true_lambda)
 
-  rand = random.Random(FLAGS.random_seed)
+  rand = secrets.SystemRandom().Random(FLAGS.random_seed)
   np.random.seed(FLAGS.random_seed)
 
   training_examples, test_examples = sample_problem(rand)

@@ -18,9 +18,8 @@
 
 from __future__ import absolute_import
 from __future__ import print_function
-
-import random
 import numpy as np
+import secrets
 
 
 class ReplayBuffer():
@@ -48,6 +47,6 @@ class ReplayBuffer():
       experience_buffer = self.buffer
     else:
       experience_buffer = self.buffer * size
-    sample = random.sample(experience_buffer, size)
+    sample = secrets.SystemRandom().sample(experience_buffer, size)
     sample = np.array(sample)
     return np.copy(sample)
