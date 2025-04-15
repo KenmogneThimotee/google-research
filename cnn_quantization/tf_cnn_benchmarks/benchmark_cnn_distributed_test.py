@@ -37,6 +37,7 @@ import tensorflow.compat.v1 as tf
 from cnn_quantization.tf_cnn_benchmarks import flags
 from cnn_quantization.tf_cnn_benchmarks import test_util
 from cnn_quantization.tf_cnn_benchmarks.platforms import util as platforms_util
+from security import safe_command
 
 FLAGS = absl_flags.FLAGS
 
@@ -97,8 +98,7 @@ def _create_task_process(job_name, task_index, args, env, output_dir):
   stderr_filename = os.path.join(output_dir, '%s_stderr.txt' % process_name)
   stdout_file = open(stdout_filename, 'w+')
   stderr_file = open(stderr_filename, 'w+')
-  popen = subprocess.Popen(
-      args, stdout=stdout_file, stderr=stderr_file, env=env)
+  popen = safe_command.run(subprocess.Popen, args, stdout=stdout_file, stderr=stderr_file, env=env)
   return _ProcessInfo(process_name, popen, stdout_file, stderr_file)
 
 
