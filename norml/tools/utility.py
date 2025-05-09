@@ -68,7 +68,7 @@ def load_config(logdir):
         'contain a configuration file.')
     raise IOError(message)
   with tf.gfile.GFile(config_path, 'r') as file_:
-    config = yaml.load(file_)
+    config = yaml.load(file_, Loader=yaml.SafeLoader)
   print('Resume run and write summaries and checkpoints to {}.'.format(
       config.logdir))
   return config

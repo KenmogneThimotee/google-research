@@ -84,7 +84,7 @@ def main(argv):
   config_file = most_recent_file(FLAGS.experiment_path, r'config.yaml')
   assert config_file
   with open(config_file, 'r') as f:
-    config = util.AttrDict(**yaml.load(f.read()))
+    config = util.AttrDict(**yaml.load(f.read(), Loader=yaml.SafeLoader))
   logging.info('Config:\n%s', pprint.pformat(config))
   env = gym.make(config.env)
   cls = globals()[config.policy]
