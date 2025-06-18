@@ -159,7 +159,7 @@ class KeyedVectors(object):
       model: a {key, word vector} dict
     """
     with open(filename, 'rb' if binary else 'r') as f:
-      _ = f.readline()
+      _ = f.readline(5_000_000)
       model = {}
       for line in f:
         keyed_weights = _get_keyed_vector(line)
