@@ -21,8 +21,6 @@
 # pylint: disable=line-too-long
 from __future__ import absolute_import
 from __future__ import division
-
-import random
 import time
 
 import numpy as np
@@ -38,6 +36,7 @@ from hal.utils.video_utils import pad_image
 from hal.utils.video_utils import save_json
 # from hal.utils.video_utils import save_video
 import hal.utils.word_vectorization as wv
+import secrets
 
 
 class RndHIR(HIR):
@@ -94,7 +93,7 @@ class RndHIR(HIR):
     for _ in range(self.cfg.num_episode):
       curr_step = agent.increase_global_step()
 
-      sample_new_scene = random.uniform(0, 1) < self.cfg.sample_new_scene_prob
+      sample_new_scene = secrets.SystemRandom().uniform(0, 1) < self.cfg.sample_new_scene_prob
       s = self.reset(env, agent, sample_new_scene)
       episode_experience = []
       episode_reward = 0

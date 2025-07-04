@@ -21,7 +21,6 @@ import tensorflow.compat.v1 as tf
 import sonnet as snt
 import numpy as np
 import os
-import random
 import collections
 import sys
 from tqdm import tqdm
@@ -33,6 +32,7 @@ from ebp.common.cmd_args import cmd_args
 from ebp.common.f_family import ScoreFunc, VAE
 from ebp.common.generator import HyperGen
 from ebp.common.plot_utils.plot_2d import plot_samples
+import secrets
 
 
 def get_gen_loss(args, xfake, ll_fake, score_func, z_outer):
@@ -78,7 +78,7 @@ def get_disc_loss(args, x, x_fake, score_func, z_outer, neg_kl_outer):
 
 
 if __name__ == '__main__':
-  random.seed(cmd_args.seed)
+  secrets.SystemRandom().seed(cmd_args.seed)
   np.random.seed(cmd_args.seed)
   tf.set_random_seed(cmd_args.seed)
 

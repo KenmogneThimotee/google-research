@@ -51,10 +51,10 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-import random
 
 import numpy as np
 import tensorflow.compat.v1 as tf
+import secrets
 
 
 def _int64_feature(value):
@@ -161,8 +161,8 @@ def _process_image(coder, name):
   """
   # Read the image file.
   value = 0 if name == 'train' else 255
-  height = random.randint(30, 299)
-  width = random.randint(30, 299)
+  height = secrets.SystemRandom().randint(30, 299)
+  width = secrets.SystemRandom().randint(30, 299)
   image = np.full((height, width, 3), value, np.uint8)
 
   jpeg_data = coder.encode_jpeg(image)

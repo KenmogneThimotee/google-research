@@ -14,8 +14,9 @@
 # limitations under the License.
 
 import numpy as np
-import random
 import torch
+import secrets
+
 """time:   1    2    3    4    5    Reward state:  0--a-1--b-2-c--3--d-4    1
 
          |-e-5--f-6              0
@@ -23,7 +24,7 @@ import torch
 """
 
 seed = 1
-random.seed(seed)
+secrets.SystemRandom().seed(seed)
 np.random.seed(seed)
 torch.manual_seed(seed)
 
@@ -48,9 +49,9 @@ def makedata(n, tgt_prob):
   data = []
   # sample data from perfect policy
   for i in range(n):
-    if random.random() < 0.5:
+    if secrets.SystemRandom().random() < 0.5:
       # start from state 0
-      tgt_act1 = 'a' if random.random() < tgt_prob else 'e'
+      tgt_act1 = 'a' if secrets.SystemRandom().random() < tgt_prob else 'e'
       data.append({
           'states': ['<eod>', 0, 1, 2, 3],
           'acts': ['<eod>', 'a', 'b', 'c', 'd'],
@@ -67,9 +68,9 @@ def makedata(n, tgt_prob):
       })
   # sample data from worst policy
   for i in range(n):
-    if random.random() < 0.5:
+    if secrets.SystemRandom().random() < 0.5:
       # start from state 0
-      tgt_act1 = 'a' if random.random() < tgt_prob else 'e'
+      tgt_act1 = 'a' if secrets.SystemRandom().random() < tgt_prob else 'e'
       data.append({
           'states': ['<eod>', 0, 5, '<eod2>', '<eod1>'],
           'acts': ['<eod>', 'e', 'f', '<eod2>', '<eod1>'],

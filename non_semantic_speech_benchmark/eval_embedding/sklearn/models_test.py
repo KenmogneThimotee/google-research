@@ -15,13 +15,12 @@
 
 # Lint as: python3
 """Tests for non_semantic_speech_benchmark.eval_embedding.sklearn.models."""
-
-import random as rn
 from absl import logging
 from absl.testing import absltest
 from absl.testing import parameterized
 import numpy as np
 from non_semantic_speech_benchmark.eval_embedding.sklearn import models
+import secrets
 
 
 def _get_some_data(num, dims=128):
@@ -40,7 +39,7 @@ class ModelsTest(parameterized.TestCase):
     # Set random seed according to:
     # https://keras.io/getting-started/faq/#how-can-i-obtain-reproducible-results-using-keras-during-development.
     np.random.seed(42)
-    rn.seed(42)
+    secrets.SystemRandom().seed(42)
 
     model = models.get_sklearn_models()[model_name]()
 

@@ -21,10 +21,10 @@ from __future__ import print_function
 
 import collections
 import itertools
-import random
 from absl import logging
 from common import Mask
 import numpy as np
+import secrets
 
 TimeStep = collections.namedtuple(
     'TimeStep',
@@ -131,7 +131,7 @@ class ReplayBuffer(object):
         trajectory = []
     if len(trajectories) < num_trajectories:
       raise ValueError('Not enough trajectories to subsample')
-    subsampled_trajectories = random.sample(trajectories, num_trajectories)
+    subsampled_trajectories = secrets.SystemRandom().sample(trajectories, num_trajectories)
     self._buffer = list(itertools.chain.from_iterable(subsampled_trajectories))
 
   def update_buffer(self, keys, values):
@@ -185,7 +185,7 @@ class ReplayBuffer(object):
     Returns:
       Returns a batch of timesteps.
     """
-    return random.sample(self._buffer, batch_size)
+    return secrets.SystemRandom().sample(self._buffer, batch_size)
 
   def compute_normalized_advantages(self):
     batch = TimeStepAdv(*zip(*self._buffer))

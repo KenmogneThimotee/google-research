@@ -17,13 +17,13 @@
 # pylint: disable=invalid-name
 import csv
 import pickle
-import random
 
 from data_generator import DataGenerator
 from maml import MAML
 import numpy as np
 import tensorflow.compat.v1 as tf
 from tensorflow.compat.v1 import flags
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -310,7 +310,7 @@ def test(model, saver, sess, exp_string, data_generator, test_num_updates=None):
   num_classes = data_generator.num_classes  # for classification, 1 otherwise
 
   np.random.seed(1)
-  random.seed(1)
+  secrets.SystemRandom().seed(1)
 
   metaval_accuracies = []
 
@@ -428,7 +428,7 @@ def main():
     num_classes = data_generator.num_classes
 
     if FLAGS.train:  # only construct training model if needed
-      random.seed(5)
+      secrets.SystemRandom().seed(5)
       image_tensor, label_tensor = data_generator.make_data_tensor()
       inputa = tf.slice(image_tensor, [0, 0, 0],
                         [-1, num_classes * FLAGS.update_batch_size, -1])
@@ -447,7 +447,7 @@ def main():
           'labelb': labelb
       }
 
-    random.seed(6)
+    secrets.SystemRandom().seed(6)
     image_tensor, label_tensor = data_generator.make_data_tensor(train=False)
     inputa = tf.slice(image_tensor, [0, 0, 0],
                       [-1, num_classes * FLAGS.update_batch_size, -1])

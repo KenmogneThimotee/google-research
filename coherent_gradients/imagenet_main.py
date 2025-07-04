@@ -38,7 +38,6 @@ validation sets, no momentum, RM3 optimizer):
 import argparse
 import csv
 import os
-import random
 import shutil
 import time
 import warnings
@@ -63,6 +62,7 @@ from coherent_gradients.datasets.dataset_with_corruption import VisionDatasetWit
 from coherent_gradients.datasets.dataset_with_indices import VisionDatasetWithIndices
 from coherent_gradients.datasets.dataset_with_selection import VisionDatasetWithSelection
 from coherent_gradients.optimizers.rm3 import RM3
+import secrets
 
 model_names = ['resnet18', 'vgg13_bn', 'inception_v3']
 
@@ -168,7 +168,7 @@ def main():
   prepare_environment(args)
 
   if args.seed is not None:
-    random.seed(args.seed)
+    secrets.SystemRandom().seed(args.seed)
     torch.manual_seed(args.seed)
     cudnn.deterministic = True
     warnings.warn('You have chosen to seed training. '

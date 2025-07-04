@@ -24,8 +24,8 @@ as well as evaluating problems related to the DNF.
 """
 
 import itertools
-import random
 import re
+import secrets
 
 _CLAUSE_REGEX = r'\(\!?x_\d+ \|\| \!?x_\d+\)'
 
@@ -57,9 +57,9 @@ def get_random_clause(num_literals):
   Returns:
     Clause instance generated uniformly at random.
   """
-  indices = random.sample(range(num_literals), 2)
-  is_negative1 = bool(random.randrange(2))
-  is_negative2 = bool(random.randrange(2))
+  indices = secrets.SystemRandom().sample(range(num_literals), 2)
+  is_negative1 = bool(secrets.SystemRandom().randrange(2))
+  is_negative2 = bool(secrets.SystemRandom().randrange(2))
   return Clause(indices[0], indices[1], is_negative1, is_negative2)
 
 

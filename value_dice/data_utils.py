@@ -14,9 +14,8 @@
 # limitations under the License.
 
 """Utils for data loading and preprocessing."""
-
-import random
 import numpy as np
+import secrets
 
 
 def load_expert_data(filename):
@@ -71,7 +70,7 @@ def subsample_trajectories(expert_states, expert_actions, expert_next_states,
       expert_dones_traj.append([])
 
   shuffle_inds = list(range(len(expert_states_traj)))
-  random.shuffle(shuffle_inds)
+  secrets.SystemRandom().shuffle(shuffle_inds)
   shuffle_inds = shuffle_inds[:num_trajectories]
   expert_states_traj = [expert_states_traj[i] for i in shuffle_inds]
   expert_actions_traj = [expert_actions_traj[i] for i in shuffle_inds]

@@ -15,10 +15,8 @@
 
 # Lint as: python3
 """Popular choice helper functions."""
-
-
-import random
 import numpy as np
+import secrets
 
 
 def degree_of_item(train):
@@ -52,7 +50,7 @@ def rank_all_by_pop(sorted_by_deg):
     if len(items) == 1:
       ranked_list.append(items[0])
     else:
-      random.shuffle(items)
+      secrets.SystemRandom().shuffle(items)
       ranked_list.extend(items)
   n_items = len(ranked_list)
   scores_of_items = np.zeros(n_items)

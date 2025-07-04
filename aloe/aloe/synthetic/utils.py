@@ -18,12 +18,12 @@ import os
 import torch
 import torch.nn.functional as F
 import numpy as np
-import random
 from sympy.combinatorics.graycode import GrayCode
 import matplotlib.pyplot as plt
 from aloe.common.configs import cmd_args
 from aloe.common.synthetic.dataset import OnlineToyDataset
 from aloe.common.pytorch_util import logsumexp, hamming_mmd, MMD
+import secrets
 
 
 def compress(x):
@@ -108,7 +108,7 @@ def get_binmap(discrete_dim, binmode):
     vals = all_bins[:]
     if binmode == 'rand':
         print('remapping binary repr with random permute')
-        random.shuffle(vals)
+        secrets.SystemRandom().shuffle(vals)
     elif binmode == 'gray':
         print('remapping binary repr with gray code')
         a = GrayCode(b)

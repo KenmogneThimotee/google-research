@@ -40,7 +40,8 @@ from numpy import exp, log, dot, zeros, outer, random, dtype, float32 as REAL, d
 from six import iteritems, itervalues, string_types
 from six.moves import xrange
 from timeit import default_timer
-from random import shuffle
+import secrets
+
 try:
   from queue import Queue, Empty
 except ImportError:
@@ -111,7 +112,7 @@ class Persona2Vec(Word2Vec):
         self.pairwise_constraints.append([key, v])
 
     batch_words = len(self.pairwise_constraints)
-    shuffle(self.pairwise_constraints)
+    secrets.SystemRandom().shuffle(self.pairwise_constraints)
 
     print("constraints added: ", batch_words)
 

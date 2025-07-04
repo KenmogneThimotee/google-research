@@ -22,7 +22,6 @@ from __future__ import print_function
 import io
 import math
 import os
-import random
 import time
 from absl import app
 from absl import flags
@@ -31,6 +30,7 @@ import numpy as np
 import tensorflow.compat.v1 as tf
 
 from depth_from_video_in_the_wild import model
+import secrets
 
 gfile = tf.gfile
 MAX_TO_KEEP = 1000000  # Maximum number of checkpoints to keep.
@@ -120,7 +120,7 @@ def main(_):
   seed = FLAGS.seed
   tf.set_random_seed(seed)
   np.random.seed(seed)
-  random.seed(seed)
+  secrets.SystemRandom().seed(seed)
 
   if not gfile.Exists(FLAGS.checkpoint_dir):
     gfile.MakeDirs(FLAGS.checkpoint_dir)

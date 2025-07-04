@@ -23,11 +23,11 @@ from __future__ import print_function
 import collections
 import os.path
 import pickle
-import random
 import re
 import threading
 
 import tensorflow.compat.v1 as tf
+import secrets
 
 
 class ReplayMemory(object):
@@ -85,11 +85,11 @@ class ReplayMemory(object):
 
   def sample_with_replacement(self, size):
     with self._lock:
-      return random.choices(self._buffer, k=size)
+      return secrets.SystemRandom().choices(self._buffer, k=size)
 
   def sample(self, size):
     with self._lock:
-      return random.sample(self._buffer, size)
+      return secrets.SystemRandom().sample(self._buffer, size)
 
   def save(self, checkpoint_dir_path, delete_old=False):
     if not tf.gfile.Exists(checkpoint_dir_path):

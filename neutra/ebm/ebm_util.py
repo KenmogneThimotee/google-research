@@ -21,11 +21,12 @@ import logging
 import math
 import os
 import pickle
-import random
 import sys
 
 from absl import flags
 import matplotlib
+import secrets
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt  # pylint: disable=g-import-not-at-top
 import numpy as np
@@ -110,7 +111,7 @@ class LambdaLr(tf.optimizers.schedules.LearningRateSchedule):
 def set_seed(seed):
   """Set the random seed for everything."""
   assert seed
-  random.seed(seed)
+  secrets.SystemRandom().seed(seed)
   np.random.seed(seed)
   os.environ['PYTHONHASHSEED'] = str(seed)
   tf.random.set_seed(seed)

@@ -18,7 +18,6 @@ import collections
 import io
 import multiprocessing
 import os
-import random
 import zipfile
 
 from absl import app
@@ -33,6 +32,7 @@ from sklearn.model_selection import ShuffleSplit
 import tqdm
 
 from graph_embedding.ddgk import model
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -103,7 +103,7 @@ def main(_):
   hparams = model.MutagHParams()
 
   graphs = load()
-  sources = dict(random.sample(graphs.items(), FLAGS.num_sources))
+  sources = dict(secrets.SystemRandom().sample(graphs.items(), FLAGS.num_sources))
 
   def ckpt(k):
     return os.path.join(FLAGS.working_dir, str(k), 'ckpt')

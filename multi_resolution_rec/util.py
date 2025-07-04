@@ -17,10 +17,10 @@
 
 from collections import defaultdict  # pylint: disable=g-importing-member
 import copy
-import random
 
 import numpy as np
 import tensorflow.compat.v1 as tf
+import secrets
 
 
 def data_partition(fname):
@@ -437,7 +437,7 @@ def evaluate(model,
   user_neg_sample_sizes = []
 
   if usernum > 10000:
-    users = random.sample(range(1, usernum + 1), 10000)
+    users = secrets.SystemRandom().sample(range(1, usernum + 1), 10000)
   else:
     users = range(1, usernum + 1)
   for u in users:

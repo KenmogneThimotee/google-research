@@ -16,7 +16,6 @@
 """Library to preprocess text data into SMITH dual encoder model inputs."""
 
 import collections
-import random
 
 import nltk
 import tensorflow.compat.v1 as tf
@@ -25,6 +24,7 @@ import tqdm
 from smith import utils
 from smith import wiki_doc_pair_pb2
 from smith.bert import tokenization
+import secrets
 
 flags = tf.flags
 
@@ -499,7 +499,7 @@ def main(_):
   tf.logging.info("*** Reading from input files ***")
   for input_file in input_files:
     tf.logging.info("  %s", input_file)
-  rng = random.Random(FLAGS.random_seed)
+  rng = secrets.SystemRandom().Random(FLAGS.random_seed)
   # Creates training instances.
   max_predictions_per_seq = FLAGS.max_predictions_per_seq if FLAGS.add_masks_lm else 0
   masked_lm_prob = FLAGS.masked_lm_prob if FLAGS.add_masks_lm else 0

@@ -20,8 +20,6 @@
 # pylint: disable=g-explicit-length-test
 from __future__ import absolute_import
 from __future__ import division
-
-import random
 import time
 
 import numpy as np
@@ -36,6 +34,7 @@ from hal.utils.video_utils import pad_image
 from hal.utils.video_utils import save_json
 from hal.utils.video_utils import save_video
 import hal.utils.word_vectorization as wv
+import secrets
 
 
 class HIR:
@@ -111,7 +110,7 @@ class HIR:
     for _ in range(self.cfg.num_episode):
       curr_step = agent.increase_global_step()
 
-      sample_new_scene = random.uniform(0, 1) < self.cfg.sample_new_scene_prob
+      sample_new_scene = secrets.SystemRandom().uniform(0, 1) < self.cfg.sample_new_scene_prob
       s = self.reset(env, agent, sample_new_scene)
       episode_experience = []
       episode_reward = 0
@@ -240,7 +239,7 @@ class HIR:
     s, a, _, s_tp1, _, ag = episode_experience[current_t]
     if ag:
       for _ in range(min(self.cfg.k_immediate, len(ag) + 1)):
-        ag_text_single = random.choice(ag)
+        ag_text_single = secrets.choice(ag)
         g_type = instruction_type(ag_text_single)
         if self.cfg.paraphrase and g_type != 'unary':
           ag_text_single = paraphrase_sentence(
@@ -258,7 +257,7 @@ class HIR:
       _, _, _, _, _, ag_future = episode_experience[future]
       if not ag_future:
         continue
-      random.shuffle(ag_future)
+      secrets.SystemRandom().shuffle(ag_future)
       for single_g in ag_future:
         if instruction_type(single_g) != 'unary':
           discount = self.cfg.discount**(future - current_t)

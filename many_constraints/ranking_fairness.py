@@ -32,7 +32,6 @@
 """Cross-group ranking fairness experiments with per-query constraints."""
 
 import math
-import random
 import sys
 
 from absl import app
@@ -42,6 +41,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import tensorflow_constrained_optimization as tfco
+import secrets
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('save_to_dir', 'tmp/', 'save the output to the path')
@@ -659,7 +659,7 @@ def train_model(train_set, params, metric_fn=None, valid_set=None):
 
   # include id = 0
   np.random.seed(121212 + FLAGS.id)
-  random.seed(212121 + FLAGS.id)
+  secrets.SystemRandom().seed(212121 + FLAGS.id)
   tf.compat.v1.set_random_seed(123456 + FLAGS.id)
 
   if params['multiplier_type'] == 'unconstrained':

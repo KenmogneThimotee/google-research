@@ -17,7 +17,6 @@
 """Fairness with noisy protected groups experiments."""
 
 from collections import Counter
-import random
 
 from absl import app
 from absl import flags
@@ -26,6 +25,7 @@ import pandas as pd
 from sklearn.cluster import KMeans
 import tensorflow as tf
 import tensorflow_constrained_optimization as tfco
+import secrets
 
 flags.DEFINE_integer('data_seed', None, 'Seed for train/test/split.')
 flags.DEFINE_boolean('feature_dependent_multiplier', True,
@@ -213,8 +213,7 @@ def generate_proxy_columns(df, protected_columns, noise_param=1):
   proxy_columns = get_proxy_column_names(protected_columns, noise_param)
   num_datapoints = len(df)
   num_groups = len(protected_columns)
-  noise_idx = random.sample(
-      range(num_datapoints), int(noise_param * num_datapoints))
+  noise_idx = secrets.SystemRandom().sample(range(num_datapoints), int(noise_param * num_datapoints))
   df_proxy = df.copy()
   for i in range(num_groups):
     df_proxy[proxy_columns[i]] = df_proxy[protected_columns[i]]
@@ -226,7 +225,7 @@ def generate_proxy_columns(df, protected_columns, noise_param=1):
         group_index = i
         allowed_new_groups = list(range(num_groups))
         allowed_new_groups.remove(group_index)
-        new_group_index = random.choice(allowed_new_groups)
+        new_group_index = secrets.choice(allowed_new_groups)
         df_proxy.at[j, proxy_columns[new_group_index]] = 1
         break
     if group_index == -1:
@@ -365,8 +364,7 @@ def generate_proxy_groups_single_noise(input_groups, noise_param=1):
   proxy_groups = np.copy(input_groups)
   num_groups = len(input_groups[0])
   num_datapoints = len(input_groups)
-  noise_idx = random.sample(
-      range(num_datapoints), int(noise_param * num_datapoints))
+  noise_idx = secrets.SystemRandom().sample(range(num_datapoints), int(noise_param * num_datapoints))
   for j in noise_idx:
     group_index = -1
     for i in range(num_groups):
@@ -375,7 +373,7 @@ def generate_proxy_groups_single_noise(input_groups, noise_param=1):
         group_index = i
         allowed_new_groups = list(range(num_groups))
         allowed_new_groups.remove(group_index)
-        new_group_index = random.choice(allowed_new_groups)
+        new_group_index = secrets.choice(allowed_new_groups)
         proxy_groups[j][new_group_index] = 1
         break
     if group_index == -1:

@@ -34,8 +34,6 @@ See the paper for a detailed explanation of the experiment.
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
-import random
 from absl import app
 from absl import flags
 import numpy as np
@@ -44,6 +42,7 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import ConstantKernel
 from sklearn.gaussian_process.kernels import RBF
 import tensorflow.compat.v1 as tf
+import secrets
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('training_data_path', '', 'training dataset')
@@ -282,7 +281,7 @@ def main(_):
     sess.run(init)
     # Training autoencoder
     for _ in range(num_steps_autoencoder):
-      batch_index = random.sample(range(len(train_labels)), BATCH_SIZE)
+      batch_index = secrets.SystemRandom().sample(range(len(train_labels)), BATCH_SIZE)
       batch_x = train_features.iloc[batch_index, :].values
       batch_y = train_labels.iloc[batch_index].values.reshape(BATCH_SIZE, 1)
       _, _ = sess.run([autoencoder_optimizer, autoencoder_loss],
@@ -328,7 +327,7 @@ def main(_):
 
       # Training classifiers
       for _ in range(TRAINING_STEPS):
-        batch_index = random.sample(range(len(train_labels)), BATCH_SIZE)
+        batch_index = secrets.SystemRandom().sample(range(len(train_labels)), BATCH_SIZE)
         batch_x = train_features.iloc[batch_index, :].values
         batch_y = train_labels.iloc[batch_index].values.reshape(BATCH_SIZE, 1)
         batch_population = train_population.iloc[batch_index].values.reshape(

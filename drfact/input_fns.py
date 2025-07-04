@@ -18,7 +18,6 @@
 
 import collections
 import json
-import random
 
 from bert import tokenization
 from language.labs.drkit import input_fns as input_utils
@@ -26,6 +25,7 @@ import tensorflow.compat.v1 as tf
 from tqdm import tqdm
 
 from tensorflow.contrib import data as contrib_data
+import secrets
 
 
 class Example(object):
@@ -221,7 +221,7 @@ class OpenCSRDataset(object):
     if is_training:
       # Pre-shuffle the input to avoid having to make a very large shuffle
       # buffer in in the `input_fn`.
-      rng = random.Random(12345)
+      rng = secrets.SystemRandom().Random(12345)
       rng.shuffle(self.examples)
 
     # Write to TFRecords file.

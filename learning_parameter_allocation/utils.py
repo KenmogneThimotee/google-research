@@ -19,8 +19,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import random
-
 from learning_parameter_allocation.pathnet import components as pn_components
 from learning_parameter_allocation.pathnet import pathnet_lib as pn
 from learning_parameter_allocation.pathnet.utils import \
@@ -30,6 +28,7 @@ import numpy as np
 import tensorflow.compat.v1 as tf
 
 from tqdm import tqdm
+import secrets
 
 
 def run_pathnet_training_step(
@@ -326,7 +325,7 @@ def run_pathnet_training_and_evaluation(
       dataset[data_split] = (dataset[data_split], num_batches)
 
   for step in tqdm(range(start_step, num_steps)):
-    random.shuffle(train_data)
+    secrets.SystemRandom().shuffle(train_data)
 
     run_pathnet_training_step(
         session, p_inputs, p_labels, p_task_id, train_step_op, train_data)

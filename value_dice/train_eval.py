@@ -19,7 +19,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import os
-import random
 import time
 from absl import app
 from absl import flags
@@ -34,6 +33,7 @@ from value_dice import gail
 from value_dice import twin_sac
 from value_dice import value_dice
 from value_dice import wrappers
+import secrets
 
 FLAGS = flags.FLAGS
 
@@ -137,7 +137,7 @@ def main(_):
 
   tf.random.set_seed(FLAGS.seed)
   np.random.seed(FLAGS.seed)
-  random.seed(FLAGS.seed)
+  secrets.SystemRandom().seed(FLAGS.seed)
 
   filename = os.path.join(FLAGS.expert_dir, FLAGS.env_name + '.npz')
   (expert_states, expert_actions, expert_next_states,

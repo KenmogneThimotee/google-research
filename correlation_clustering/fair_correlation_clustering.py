@@ -90,7 +90,6 @@ results of the experiment.
 
 import collections
 import datetime
-import random
 from absl import app
 from absl import flags
 from absl import logging
@@ -105,6 +104,7 @@ from correlation_clustering.utils import FractionalColorImbalance
 from correlation_clustering.utils import PairwiseFairletCosts
 import networkx as nx
 import pandas as pd
+import secrets
 
 
 flags.DEFINE_string(
@@ -295,7 +295,7 @@ def FairletDecompositionEqualRepresentation(graph):
   # Pick random ordering of colors for the computing a repeated matching
   # between pairs of nodes of different colors.
   color_nodes = list(color_nodes.values())
-  random.shuffle(color_nodes)
+  secrets.SystemRandom().shuffle(color_nodes)
   # Initializes one fairlet for each node of color in position 0.
   color_a_nodes = set(color_nodes[0])
   fairlets = collections.defaultdict(list)
@@ -408,7 +408,7 @@ def RunEval(graph, num_colors, algorithm, algo_label, seed):
 
   logging.info('[RUNNING] algorithm %s with seed %d', algo_label, seed)
   result = {'algo': algo_label, 'colors': num_colors, 'seed': seed}
-  random.seed(seed)
+  secrets.SystemRandom().seed(seed)
   start_time = datetime.datetime.now()
   solution = algorithm(graph)
   end_time = datetime.datetime.now()

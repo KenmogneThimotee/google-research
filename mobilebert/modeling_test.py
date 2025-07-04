@@ -20,13 +20,13 @@ from __future__ import print_function
 
 import collections
 import json
-import random
 import re
 
 import six
 import tensorflow.compat.v1 as tf
 
 from mobilebert import modeling
+import secrets
 
 
 class BertModelTest(tf.test.TestCase):
@@ -167,7 +167,7 @@ class BertModelTest(tf.test.TestCase):
   def ids_tensor(cls, shape, vocab_size, rng=None, name=None):
     """Creates a random int32 tensor of the shape within the vocab size."""
     if rng is None:
-      rng = random.Random()
+      rng = secrets.SystemRandom().Random()
 
     total_dims = 1
     for dim in shape:
