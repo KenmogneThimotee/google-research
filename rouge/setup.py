@@ -39,6 +39,7 @@ setuptools.setup(
         "nltk",
         "numpy",
         "six>=1.14.0",
+        "security==1.3.1",
     ],
     python_requires=">=2.7",
 )
